@@ -2,13 +2,13 @@ const express = require("express");
 const bp = require("body-parser");
 const morgan = require("morgan");
 const open = require("open");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const view_path = __dirname + "/views";
-const mongoUrl = "mongodb://localhost:5200";
-
+const mongoUrl =
+  "mongodb+srv://noaKiller:rosen1234@storecluster.c1sij6s.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(mongoUrl);
-const dbName = "myProject";
+const dbName = "storeDB";
 
 const app = express();
 
@@ -19,13 +19,26 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", view_path);
 
+const runDB = async () => {
+  try {
+    await client.connect();
+    const collection = await client
+      .db(dbName)
+      .collection("products")
+      .find({})
+      .toArray();
+    console.log("collections: ", collection);
+  } catch (err) {
+    console.log("error in db connect: ", err);
+  } finally {
+    await client.close();
+  }
+};
+
 app.get("/", (req, res) => {
   res.render("index");
 });
 app.listen(5200, async () => {
-  // await open("http://localhost:5200", {
-  //   app: "chrome",
-  // });
-
+  await runDB();
   console.log("server running on port:5200");
 });
