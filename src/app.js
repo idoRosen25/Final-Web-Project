@@ -16,7 +16,7 @@ app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
 app.use(morgan("dev"));
 app.use(express.static("public"));
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 app.set("views", view_path);
 
 app.get("/", (req, res) => {
