@@ -1,12 +1,12 @@
 const express = require("express");
 const bp = require("body-parser");
 const morgan = require("morgan");
-const dotenv = require("dotenv");
-const { MongoClient } = require("mongodb");
+const open = require("open");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const { DB_USERNAME, DB_PASSWORD } = dotenv.config().parsed;
 const view_path = __dirname + "/views";
-const mongoUrl = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@storecluster.c1sij6s.mongodb.net/?retryWrites=true&w=majority`;
+const mongoUrl =
+  "mongodb+srv://noaKiller:rosen1234@storecluster.c1sij6s.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(mongoUrl);
 const dbName = "storeDB";
 
@@ -38,7 +38,6 @@ const runDB = async () => {
 app.get("/", (req, res) => {
   res.render("index");
 });
-
 app.listen(5200, async () => {
   await runDB();
   console.log("server running on port:5200");
