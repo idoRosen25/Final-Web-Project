@@ -15,7 +15,7 @@ const app = express();
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
 app.use(morgan("dev"));
-app.use('/public',express.static(__dirname+"/public"));
+app.use(express.static(__dirname+"/public"));
 app.set("view engine", "ejs");
 app.set("views", view_path);
 
@@ -38,23 +38,7 @@ const runDB = async () => {
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.post('/user/login',async (req, res) => {
-  
-  const {email,password}=req.body;
-  console.log("test login",email,password);
 
-  await client.connect();
-  const user = await client.db(dbName).collection('users').find({email,password}).toArray()
-   
-  console.log('user from db: ',user);
-  if(user.length){
-    return user[0];
-  }else{
-    res.code=401;
-    res.message="No User Found";
-  }
-
-})
 app.listen(5200, async () => {
   await runDB();
   console.log("server running on port:5200");
