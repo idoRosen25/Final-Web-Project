@@ -6,24 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%- include('./partials/head'); %>
+
+    <link rel="stylesheet" href="../public/css/footer.css">
 </head>
 
 <body>
     <%- include('./partials/header'); %>
         <h1>Index From Server still with nodemon</h1>
-        <form class="row g-3">
-            <div class="col-auto">
-                <label for="username" class="visually-hidden">Email</label>
-                <input type="text" class="form-control" id="username" value="email@example.com" required>
-            </div>
-            <div class="col-auto">
-                <label for="password" class="visually-hidden">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-            </div>
-        </form>
 
         <%- include('./partials/footer'); %>
 
