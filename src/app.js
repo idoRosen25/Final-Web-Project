@@ -15,7 +15,7 @@ const app = express();
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
 app.use(morgan("dev"));
-app.use(express.static("public"));
+app.use(express.static(__dirname+"/public"));
 app.set("view engine", "ejs");
 app.set("views", view_path);
 
