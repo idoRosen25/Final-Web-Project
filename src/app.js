@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.use("/user", require("./routes/user"));
+app.use("/login", require("./routes/login"));
 app.use("/cart", require("./routes/cart"));
 app.use("/product", require("./routes/product"));
 app.use("/purchase", require("./routes/purchase"));
