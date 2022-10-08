@@ -11,4 +11,15 @@ async function login(email, password) {
 
   console.log("user from db: ", user);
 }
-module.exports = { login };
+
+async function registerUser(email, password, firstName, lastName, username) {
+  console.log(
+    "register user: ",
+    email,
+    password,
+    firstName,
+    lastName,
+    username
+  );
+}
+module.exports = { login, registerUser };
