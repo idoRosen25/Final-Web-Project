@@ -23,7 +23,7 @@ const session = require("express-session");
 app.use(
   session({
     secret: "secret",
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: false,
   })
 );
@@ -40,6 +40,12 @@ app.get("/", (req, res) => {
 app.use("/login", require("./routes/login"));
 app.use("/cart", require("./routes/cart"));
 app.use("/product", require("./routes/product"));
+app.use("/error", (req, res) => {
+  res.redirect("/");
+});
+app.use("*", (req, res) => {
+  res.redirect("/error?code=404");
+});
 
 app.listen(5200, async () => {
   console.log("server running on port:5200");

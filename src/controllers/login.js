@@ -1,4 +1,5 @@
 const loginService = require("../services/login");
+
 function isLoggedIn(req, res, next) {
   req.session.username ? next() : res.redirect("/");
 }
@@ -14,7 +15,7 @@ async function login(req, res) {
   } else {
     res.code = 401;
     res.message = "No User Found";
-    res.render("/login=error");
+    res.redirect("/error?login=1");
   }
 }
 
@@ -33,6 +34,9 @@ async function register(req, res) {
     res.redirect("/");
   } catch (error) {
     console.error("register error: ", error);
+    res.code = 401;
+    res.message = "No User Found";
+    res.render("/error?register");
   }
 }
-module.exports = { login };
+module.exports = { login, register, isLoggedIn };
