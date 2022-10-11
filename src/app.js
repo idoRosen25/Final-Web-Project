@@ -19,21 +19,20 @@ app.use("/public", express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", view_path);
 
-const runDB = async () => {
-  try {
-    await client.connect();
-    const collection = await client
-      .db(dbName)
-      .collection("products")
-      .find({})
-      .toArray();
-    console.log("collections: ", collection);
-  } catch (err) {
-    console.log("error in db connect: ", err);
-  } finally {
-    await client.close();
-  }
-};
+const session = require("express-session");
+app.use(
+  session({
+    secret: "secret",
+    saveUninitialized: false,
+    resave: false,
+  })
+);
+
+app.use(function (req, res, next) {
+  res.locals.username = req.session?.username ? req.session?.username : null;
+  next();
+});
+
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -41,9 +40,7 @@ app.get("/", (req, res) => {
 app.use("/login", require("./routes/login"));
 app.use("/cart", require("./routes/cart"));
 app.use("/product", require("./routes/product"));
-app.use("/purchase", require("./routes/purchase"));
 
 app.listen(5200, async () => {
-  await runDB();
   console.log("server running on port:5200");
 });
