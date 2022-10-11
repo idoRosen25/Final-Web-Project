@@ -1,23 +1,42 @@
 const loginService = require("../services/login");
+
 function isLoggedIn(req, res, next) {
   req.session.username ? next() : res.redirect("/");
 }
 
 async function login(req, res) {
-  console.log("in login from controller: ", req);
   const { email, password } = req.body;
-  console.log("test login", email, password);
 
-  const user = loginService.login(email, password);
+  const user = await loginService.login(email, password);
 
   if (user.length) {
     req.session.username = email;
-    res.render("/");
+    res.redirect("/");
   } else {
     res.code = 401;
     res.message = "No User Found";
-    res.render("/login=error");
+    res.redirect("/error?login=1");
   }
 }
 
-module.exports = { login };
+async function register(req, res) {
+  const { email, password, firstName, lastName, gender } = req.body;
+
+  try {
+    await loginService.registerUser(
+      email,
+      password,
+      firstName,
+      lastName,
+      gender
+    );
+    req.session.username = email;
+    res.redirect("/");
+  } catch (error) {
+    console.error("register error: ", error);
+    res.code = 401;
+    res.message = "No User Found";
+    res.render("/error?register");
+  }
+}
+module.exports = { login, register, isLoggedIn };
