@@ -30,6 +30,8 @@ app.use(
 
 app.use(function (req, res, next) {
   res.locals.username = req.session?.username ? req.session?.username : null;
+  // res.locals.username = req.session.username ? req.session.username : null;
+
   next();
 });
 
