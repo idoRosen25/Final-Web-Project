@@ -41,6 +41,7 @@ app.get("/", (req, res) => {
 
 app.use("/login", require("./routes/login"));
 app.use("/cart", require("./routes/cart"));
+app.use("/wishlist", require("./routes/wishlist"));
 app.use("/product", require("./routes/product"));
 app.use("/error", (req, res) => {
   res.redirect("/");
