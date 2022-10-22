@@ -1,14 +1,8 @@
 const express = require("express");
 const bp = require("body-parser");
 const morgan = require("morgan");
-const dotenv = require("dotenv");
-const { MongoClient } = require("mongodb");
 
-const { DB_USERNAME, DB_PASSWORD } = dotenv.config().parsed;
 const view_path = __dirname + "/views";
-const mongoUrl = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@storecluster.c1sij6s.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(mongoUrl);
-const dbName = "storeDB";
 
 const app = express();
 
@@ -37,7 +31,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.use("/login", require("./routes/login"));
+app.use("/user", require("./routes/user"));
 app.use("/cart", require("./routes/cart"));
 app.use("/product", require("./routes/product"));
 app.use("/error", (req, res) => {
