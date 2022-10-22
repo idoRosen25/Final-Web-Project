@@ -6,7 +6,7 @@ async function login(email, password) {
   const user = await client
     .db("storeDB")
     .collection("users")
-    .find({ email, password })
+    .find({ _id: email, password })
     .toArray();
 
   return user;
