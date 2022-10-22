@@ -1,14 +1,16 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.container-fluid,.row{
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
+.container-fluid,
+.row {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
 }
 .main-footer {
-    width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
 }
-

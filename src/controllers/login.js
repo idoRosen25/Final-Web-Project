@@ -4,18 +4,22 @@ function isLoggedIn(req, res, next) {
   req.session.username ? next() : res.redirect("/");
 }
 
+function isAdmin(req, res, next) {
+  req.session.role === "admin" ? next() : false;
+}
+
 async function login(req, res) {
   const { email, password } = req.body;
 
   const user = await loginService.login(email, password);
 
   if (user.length) {
+    console.log("user from db: ", user);
     req.session.username = email;
-    res.redirect("/");
+    req.session.role = user[0].role;
+    res.json({ status: "success", code: 200, user: user[0] });
   } else {
-    res.code = 401;
-    res.message = "No User Found";
-    res.redirect("/error?login=1");
+    res.json({ status: "error", code: 401, message: "No User Found" });
   }
 }
 
@@ -39,4 +43,4 @@ async function register(req, res) {
     res.render("/error?register");
   }
 }
-module.exports = { login, register, isLoggedIn };
+module.exports = { login, register, isLoggedIn, isAdmin };
