@@ -37,4 +37,13 @@ router.post("/remove", isLoggedIn, (req, res) => {
   }
 });
 
+router.delete("/clear", isLoggedIn, (req, res) => {
+  const clearWishlist = wishlistController.clearWishlist(req);
+  if (clearWishlist) {
+    res.json({ code: 200, success: true, message: "Wishlist cleared" });
+  } else {
+    res.json({ code: 400, success: false, message: "Wishlist not cleared" });
+  }
+});
+
 module.exports = router;

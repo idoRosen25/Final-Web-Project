@@ -24,6 +24,9 @@ async function getWishlist(email) {
 async function addItemToList(email, itemId) {
   await client.connect();
   try {
+    if (!email || !itemId) {
+      throw new Error();
+    }
     await client
       .db("storeDB")
       .collection("wishlists")
@@ -42,6 +45,9 @@ async function removeItemFromList(email, itemId) {
   await client.connect();
 
   try {
+    if (!email || !itemId) {
+      throw new Error();
+    }
     await client
       .db("storeDB")
       .collection("wishlists")
@@ -52,4 +58,25 @@ async function removeItemFromList(email, itemId) {
     return false;
   }
 }
-module.exports = { getWishlist, addItemToList, removeItemFromList };
+
+async function clearWishlist(email) {
+  await client.connect();
+  try {
+    if (!email) {
+      throw new Error();
+    }
+    await client
+      .db("storeDB")
+      .collection("wishlists")
+      .deleteOne({ user: email });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+module.exports = {
+  getWishlist,
+  addItemToList,
+  removeItemFromList,
+  clearWishlist,
+};

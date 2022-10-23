@@ -13,4 +13,14 @@ async function removeItemFromList(req) {
   console.log("in remove item: ", itemId);
   return await wishlistService.removeItemFromList(req.session.username, itemId);
 }
-module.exports = { getWishlist, addItemToList, removeItemFromList };
+
+async function clearWishlist(req) {
+  return await wishlistService.clearWishlist(req.session.username);
+}
+
+module.exports = {
+  getWishlist,
+  addItemToList,
+  removeItemFromList,
+  clearWishlist,
+};

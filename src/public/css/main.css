@@ -3,14 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-.container-fluid,
-.row {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-}
-.main-footer {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100%;
+.min-fit {
+  min-height: 66.5vh !important;
 }
