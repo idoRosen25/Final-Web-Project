@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const client = require("../models/db");
 
 async function getWishlist(email) {
@@ -5,19 +6,50 @@ async function getWishlist(email) {
 
   const items = await client
     .db("storeDB")
-    .collection("wishlist")
-    .find({ email })
+    .collection("wishlists")
+    .find({ user: email })
     .toArray();
-  console.log("items in wishlist: ", items);
 
   if (items.length) {
     const wishlist = await client
       .db("storeDB")
       .collection("products")
-      .find({ id: { $in: items[0].products } })
+      .find({ _id: { $in: items[0].itemIds.map((id) => ObjectId(id)) } })
       .toArray();
-    return items;
+
+    return wishlist;
   }
 }
 
-module.exports = { getWishlist };
+async function addItemToList(email, itemId) {
+  await client.connect();
+  try {
+    await client
+      .db("storeDB")
+      .collection("wishlists")
+      .updateOne(
+        { user: email },
+        { $push: { itemIds: itemId } },
+        { upsert: true }
+      );
+    return true;
+  } catch (error) {
+    console.log("error in add to wishlist: ", error);
+    return false;
+  }
+}
+async function removeItemFromList(email, itemId) {
+  await client.connect();
+
+  try {
+    await client
+      .db("storeDB")
+      .collection("wishlists")
+      .updateOne({ user: email }, { $pull: { itemIds: itemId } });
+    return true;
+  } catch (error) {
+    console.log("error in remove from wishlist: ", error);
+    return false;
+  }
+}
+module.exports = { getWishlist, addItemToList, removeItemFromList };
