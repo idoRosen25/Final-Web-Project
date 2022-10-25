@@ -1,7 +1,7 @@
 const client = require("../models/db");
 const Product = require("../models/product");
 
-async function getByCategory(category) {
+async function getProductByCategory(category) {
   await client.connect();
   const items = await client
     .db("storeDB")
@@ -34,4 +34,4 @@ async function addProduct({ title, category, price, image }) {
     }
   }
 }
-module.exports = { getByCategory, addProduct };
+module.exports = { getProductByCategory, addProduct };

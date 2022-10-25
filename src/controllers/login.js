@@ -5,7 +5,9 @@ function isLoggedIn(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  req.session.role === "admin" ? next() : false;
+  req.session.username && req.session.role === "admin"
+    ? next()
+    : res.redirect("/");
 }
 
 async function login(req, res) {
