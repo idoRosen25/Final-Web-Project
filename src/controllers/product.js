@@ -1,3 +1,5 @@
+const productService = require("../services/product");
+
 async function getByCategory(req, res) {
   const items = await productService.getByCategory(req.body.category);
   return items;

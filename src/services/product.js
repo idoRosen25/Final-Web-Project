@@ -1,4 +1,3 @@
-const { uniqueId } = require("lodash");
 const client = require("../models/db");
 const Product = require("../models/product");
 
@@ -12,7 +11,7 @@ async function getByCategory(category) {
   return items;
 }
 
-async function addProduct({ title, category, price }) {
+async function addProduct({ title, category, price, image }) {
   await client.connect();
   const item = await client
     .db("storeDB")
@@ -21,7 +20,12 @@ async function addProduct({ title, category, price }) {
     .toArray();
 
   if (!item.length) {
-    const product = new Product("random", title.toLowerCase(), category, price);
+    const product = new Product({
+      title: title.toLowerCase(),
+      category,
+      price: parseFloat(price),
+      image,
+    });
 
     try {
       await client.db("storeDB").collection("products").insertOne(product);
