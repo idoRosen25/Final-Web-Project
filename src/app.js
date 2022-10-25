@@ -43,6 +43,7 @@ app.use("/login", require("./routes/login"));
 app.use("/cart", require("./routes/cart"));
 app.use("/wishlist", require("./routes/wishlist"));
 app.use("/product", require("./routes/product"));
+app.use("/category", require("./routes/category"));
 app.use("/error", (req, res) => {
   res.redirect("/");
 });

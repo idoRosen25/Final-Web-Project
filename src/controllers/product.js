@@ -1,5 +1,7 @@
-async function getByCategory(req, res) {
-  const items = await productService.getByCategory(req.body.category);
+const productService = require("../services/product");
+
+async function getProductByCategory(req, res) {
+  const items = await productService.getProductByCategory(req.body.category);
   return items;
 }
 
@@ -7,4 +9,4 @@ async function addProduct(req, res) {
   const item = await productService.addProduct(req.body);
   res.render("index");
 }
-module.exports = { getByCategory, addProduct };
+module.exports = { getProductByCategory, addProduct };

@@ -21,6 +21,7 @@ async function registerUser(email, password, firstName, lastName, username) {
     await client.db("storeDB").collection("users").insertOne(newUser);
   } catch (error) {
     console.error("error on register");
+    return new Error(error);
   }
 }
 module.exports = { login, registerUser };
