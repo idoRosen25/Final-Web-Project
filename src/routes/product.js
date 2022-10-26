@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isAdmin } = require("../controllers/login");
+const { isAdmin } = require("../controllers/user");
 
 const productController = require("../controllers/product");
 router.get("/", productController.getProductByCategory);
