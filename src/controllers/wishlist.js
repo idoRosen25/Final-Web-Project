@@ -4,18 +4,59 @@ async function getWishlist(req) {
   return await wishlistService.getWishlist(req.session.username);
 }
 
-async function addItemToList(req) {
+async function addItemToList(req, res) {
   const { itemId } = req.body;
-  return await wishlistService.addItemToList(req.session.username, itemId);
-}
-async function removeItemFromList(req) {
-  const { itemId } = req.body;
-  console.log("in remove item: ", itemId);
-  return await wishlistService.removeItemFromList(req.session.username, itemId);
+
+  const addItem = await wishlistService.addItemToList(
+    req.session.username,
+    itemId
+  );
+  if (addItem) {
+    res.json({ code: 200, success: true, message: "Item added to wishlist" });
+  } else {
+    res.json({
+      code: 400,
+      success: false,
+      message: "Item not added to wishlist",
+    });
+  }
 }
 
-async function clearWishlist(req) {
-  return await wishlistService.clearWishlist(req.session.username);
+async function removeItemFromList(req, res) {
+  {
+    const { itemId } = req.body;
+    console.log("in remove item: ", itemId);
+
+    const removeItem = await wishlistService.removeItemFromList(
+      req.session.username,
+      itemId
+    );
+
+    if (removeItem) {
+      res.json({
+        code: 200,
+        success: true,
+        message: "Item removed from wishlist",
+      });
+    } else {
+      res.json({
+        code: 400,
+        success: false,
+        message: "Item not removed from wishlist",
+      });
+    }
+  }
+}
+
+async function clearWishlist(req, res) {
+  const clearWishlist = await wishlistService.clearWishlist(
+    req.session.username
+  );
+  if (clearWishlist) {
+    res.json({ code: 200, success: true, message: "Wishlist cleared" });
+  } else {
+    res.json({ code: 400, success: false, message: "Wishlist not cleared" });
+  }
 }
 
 module.exports = {
