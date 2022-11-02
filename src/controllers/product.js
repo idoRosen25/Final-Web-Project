@@ -6,7 +6,15 @@ async function getProductsByCategory(req, res) {
 }
 
 async function addProduct(req, res) {
-  const item = await productService.addProduct(req.body);
-  res.render("index");
+  try {
+    const item = await productService.addProduct(req.body);
+    if (item) {
+      res.render("index");
+    } else {
+      throw { code: 400, message: "Couldn't add product" };
+    }
+  } catch (error) {
+    res.json({ status: "error", code: error.code, error: error.message });
+  }
 }
 module.exports = { getProductsByCategory, addProduct };

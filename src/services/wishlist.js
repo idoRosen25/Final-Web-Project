@@ -4,6 +4,8 @@ const client = require("../models/db");
 async function getWishlist(email) {
   await client.connect();
 
+  if (!email) return false;
+
   const items = await client
     .db("storeDB")
     .collection("wishlists")

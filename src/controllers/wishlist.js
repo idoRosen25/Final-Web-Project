@@ -1,7 +1,12 @@
 const wishlistService = require("../services/wishlist");
 
-async function getWishlist(req) {
-  return await wishlistService.getWishlist(req.session.username);
+async function getWishlist(req, res) {
+  const items = await wishlistService.getWishlist(req.session.username);
+  if (items) {
+    return items;
+  } else {
+    res.json({ code: 400, success: false, message: "Couldn't get wishlist" });
+  }
 }
 
 async function addItemToList(req, res) {
@@ -25,8 +30,6 @@ async function addItemToList(req, res) {
 async function removeItemFromList(req, res) {
   {
     const { itemId } = req.body;
-    console.log("in remove item: ", itemId);
-
     const removeItem = await wishlistService.removeItemFromList(
       req.session.username,
       itemId

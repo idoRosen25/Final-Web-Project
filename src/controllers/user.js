@@ -1,22 +1,23 @@
-const loginService = require("../services/user");
+const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username ? next() : res.redirect("/");
+  req.session.username
+    ? next()
+    : res.json({ code: 403, message: "Not logged in" });
 }
 
 function isAdmin(req, res, next) {
   req.session.username && req.session.role === "admin"
     ? next()
-    : res.redirect("/");
+    : res.json({ code: 403, message: "Admins Only" });
 }
 
 async function login(req, res) {
   const { email, password } = req.body;
 
-  const user = await loginService.login(email, password);
+  const user = await userService.login(email, password);
 
   if (user) {
-    console.log("user from db: ", user);
     req.session.username = email;
     req.session.role = user.role;
     res.json({ status: "success", code: 200, user });
@@ -26,11 +27,10 @@ async function login(req, res) {
 }
 
 async function register(req, res) {
-  console.log("in register controller");
   const { email, password, firstName, lastName, gender, age, role } = req.body;
 
   try {
-    const register = await loginService.registerUser(
+    const register = await userService.registerUser(
       email,
       password,
       firstName,
@@ -39,11 +39,13 @@ async function register(req, res) {
       age,
       role
     );
-    console.log("register: ", register);
-    req.session.username = email;
-    res.redirect("/");
+    if (register) {
+      req.session.username = email;
+      res.redirect("/");
+    } else {
+      throw Error();
+    }
   } catch (error) {
-    console.error("register error: ", error);
     res.json({
       status: "error",
       code: error.code,
@@ -51,4 +53,37 @@ async function register(req, res) {
     });
   }
 }
-module.exports = { login, register, isLoggedIn, isAdmin };
+
+async function getUser(req, res) {
+  const username = req.session.username;
+  if (username) {
+    const user = await userService.getUser(username);
+    res.json({ status: "success", code: 200, user });
+  } else {
+    res.redirect("/user/register");
+  }
+}
+
+async function updateUser(req, res) {
+  const username = req.session.username;
+  const { password, firstName, lastName, gender, age } = req.body;
+  if (username) {
+    const user = await userService.updateUser(
+      username,
+      password,
+      firstName,
+      lastName,
+      gender,
+      age
+    );
+    if (user) {
+      res.json({ status: "success", code: 200, user });
+    }
+  }
+  res.json({
+    status: "error",
+    code: 400,
+    message: "Couldn't update user info",
+  });
+}
+module.exports = { login, register, isLoggedIn, isAdmin, getUser, updateUser };
