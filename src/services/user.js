@@ -5,11 +5,7 @@ const hashService = require("./hash");
 async function login(email, password) {
   await client.connect();
 
-  if (
-    !email.match(
-      '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/'
-    )
-  ) {
+  if (!email.match(/\S+@\S+\.\S+/)) {
     throw { status: "error", code: 401, message: "Invalid Email Address" };
   }
   const user = await client.db("storeDB").collection("users").findOne({
