@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
 const Cart = mongoose.Schema({
-  userId: String,
+  email: String,
   products: [{ id: String, quantity: Number }],
-  isPaid: Boolean,
-  checkoutDate: Date | null,
 });
 
 module.exports = mongoose.model("Cart", Cart);

@@ -1,6 +1,7 @@
 const client = require("../models/db");
 const Cart = require("../models/cart");
 const { getProductById } = require("./product");
+const { createOrder } = require("./order");
 
 async function getCart(email) {
   await client.connect();
@@ -20,10 +21,7 @@ async function getCart(email) {
 async function clearCart(email) {
   await client.connect();
   try {
-    await client
-      .db("storeDB")
-      .collection("carts")
-      .deleteOne({ email, isPaid: false });
+    await client.db("storeDB").collection("carts").deleteOne({ email });
   } catch (error) {
     throw { code: 400, message: "Couldn't clear cart" };
   }
@@ -34,16 +32,30 @@ async function checkoutCart(email) {
   const checkout = await client
     .db("storeDB")
     .collection("carts")
-    .updateOne(
-      {
-        email,
-        isPaid: false,
-        products: { $gt: [{ $size: "$arr" }, 0] },
-      },
-      { $set: { isPaid: true, checkoutDate: new Date() } }
-    );
-  if (checkout.acknowledged && checkout.modifiedCount > 0) {
-    return true;
+    .findOne({
+      email,
+      products: { $gt: [{ $size: "$arr" }, 0] },
+    });
+  if (checkout) {
+    try {
+      const order = await createOrder(
+        checkout.email,
+        checkout.products,
+        checkout.products.reduce(async (acc, item) => {
+          const product = await getProductById(item.id);
+          return acc + product.price * item.quantity;
+        })
+      );
+
+      if (order) {
+        await clearCart(email);
+        return true;
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      throw { code: 400, message: "Couldn't checkout cart" };
+    }
   } else {
     throw { code: 400, message: "Couldn't checkout cart" };
   }
@@ -76,7 +88,7 @@ async function addProductToCart(email, { productId, amount = 1 }) {
         .db("storeDB")
         .collection("carts")
         .updateOne(
-          { email, isPaid: false },
+          { email },
           exist
             ? { $set: { products: cart.products } }
             : { $push: { products: { id: productId, quantity: parsedAmount } } }
@@ -88,7 +100,6 @@ async function addProductToCart(email, { productId, amount = 1 }) {
       .collection("carts")
       .insertOne({
         email,
-        isPaid: false,
         products: [{ id: productId, quantity: parsedAmount }],
       });
   } catch (err) {
@@ -105,10 +116,7 @@ async function removeProductFromCart(email, itemId) {
     return await client
       .db("storeDB")
       .collection("carts")
-      .updateOne(
-        { email, isPaid: false },
-        { $pull: { products: { id: itemId } } }
-      );
+      .updateOne({ email }, { $pull: { products: { id: itemId } } });
   } catch (error) {
     throw error;
   }
