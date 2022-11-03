@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const client = require("../models/db");
+const hashService = require("./hash");
 
 async function login(email, password) {
   await client.connect();
@@ -11,12 +12,16 @@ async function login(email, password) {
   ) {
     throw { status: "error", code: 401, message: "Invalid Email Address" };
   }
-  const user = await client
-    .db("storeDB")
-    .collection("users")
-    .findOne({ email, password });
-
-  return user;
+  const user = await client.db("storeDB").collection("users").findOne({
+    email,
+  });
+  if (user) {
+    const compare = await hashService.compareHash(password, user.password);
+    if (compare) {
+      return user;
+    }
+  }
+  return null;
 }
 
 async function registerUser(
@@ -33,10 +38,13 @@ async function registerUser(
       code: 400,
       message: "Couldn't register user. Please try again later",
     };
-  if (!login(email, password)) {
+
+  if (!(await login(email, password))) {
+    const hashedPass = await hashService.genHash(password);
+
     const newUser = new User({
       email,
-      password,
+      password: hashedPass,
       firstName,
       lastName,
       gender,
@@ -53,8 +61,9 @@ async function registerUser(
         message: "Couldn't register user. Please try again later",
       };
     }
+  } else {
+    throw { code: 401, message: "Username already exists" };
   }
-  throw { code: 401, message: "Username already exists" };
 }
 
 async function getUser(email) {
