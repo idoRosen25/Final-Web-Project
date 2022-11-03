@@ -3,6 +3,14 @@ const client = require("../models/db");
 
 async function login(email, password) {
   await client.connect();
+
+  if (
+    !email.match(
+      '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/'
+    )
+  ) {
+    throw { status: "error", code: 401, message: "Invalid Email Address" };
+  }
   const user = await client
     .db("storeDB")
     .collection("users")
@@ -35,7 +43,6 @@ async function registerUser(
       age: parseInt(age),
       role,
     });
-    console.log("new user: ", newUser);
 
     try {
       await client.connect();
