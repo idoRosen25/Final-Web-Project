@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const { isLoggedIn } = require("../controllers/user");
+const cartController = require("../controllers/cart");
 
-// get cart by user ID
-// clear cart by user ID
-// checkout cart by user ID
-// add product to cart by user ID
+router.get("/", isLoggedIn, cartController.getCart);
 
-router.get("/", isLoggedIn, (req, res) => {
-  console.log("user is loggedIn");
-  res.redirect("/");
-});
+router.delete("/", isLoggedIn, cartController.clearCart);
+
+router.post("/checkout", isLoggedIn, cartController.checkoutCart);
+
+router.post("/add", isLoggedIn, cartController.addProductToCart);
+
+router.delete("/remove", isLoggedIn, cartController.removeProductFromCart);
 
 module.exports = router;

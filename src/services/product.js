@@ -6,7 +6,7 @@ async function getProductsByCategory(category) {
   const items = await client
     .db("storeDB")
     .collection("products")
-    .find({ category })
+    .find({ category: category.toLowerCase() })
     .toArray();
   return items;
 }
@@ -29,7 +29,10 @@ async function addProduct({ title, category, price, image }) {
         price: parseFloat(price),
         image,
       });
-      await client.db("storeDB").collection("products").insertOne(product);
+      return await client
+        .db("storeDB")
+        .collection("products")
+        .insertOne(product);
     } catch (error) {
       throw error;
     }
@@ -37,4 +40,12 @@ async function addProduct({ title, category, price, image }) {
     throw { code: 400, message: "Product already exists" };
   }
 }
-module.exports = { getProductsByCategory, addProduct };
+
+async function getProductById(id) {
+  await client.connect();
+  return await client
+    .db("storeDB")
+    .collection("products")
+    .findOne({ _id: ObjectId(id) });
+}
+module.exports = { getProductsByCategory, addProduct, getProductById };

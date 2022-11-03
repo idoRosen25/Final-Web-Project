@@ -15,14 +15,18 @@ function isAdmin(req, res, next) {
 async function login(req, res) {
   const { email, password } = req.body;
 
-  const user = await userService.login(email, password);
+  try {
+    const user = await userService.login(email, password);
 
-  if (user) {
-    req.session.username = email;
-    req.session.role = user.role;
-    res.json({ status: "success", code: 200, user });
-  } else {
-    res.json({ status: "error", code: 401, message: "No User Found" });
+    if (user) {
+      req.session.username = email;
+      req.session.role = user.role;
+      res.json({ status: "success", code: 200, user });
+    } else {
+      res.json({ status: "error", code: 401, message: "No User Found" });
+    }
+  } catch (error) {
+    res.json({ status: "error", code: error.code, message: error.message });
   }
 }
 
