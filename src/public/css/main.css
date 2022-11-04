@@ -3,9 +3,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+.container-fluid {
+  padding: 0 !important;
+}
 .min-fit {
   min-height: 66.5vh !important;
 }
 .capitalize {
   text-transform: capitalize;
+}
+.min-h-40 {
+  min-height: 30vh !important;
 }

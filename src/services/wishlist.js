@@ -9,14 +9,13 @@ async function getWishlist(email) {
   const items = await client
     .db("storeDB")
     .collection("wishlists")
-    .find({ user: email })
-    .toArray();
+    .findOne({ user: email });
 
-  if (items.length) {
+  if (items) {
     const wishlist = await client
       .db("storeDB")
       .collection("products")
-      .find({ _id: { $in: items[0].itemIds.map((id) => ObjectId(id)) } })
+      .find({ _id: { $in: items.itemIds.map((id) => ObjectId(id)) } })
       .toArray();
 
     return wishlist;

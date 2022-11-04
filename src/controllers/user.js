@@ -1,9 +1,7 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username
-    ? next()
-    : res.json({ code: 403, message: "Not logged in" });
+  req.session.username ? next() : res.redirect("/");
 }
 
 function isAdmin(req, res, next) {

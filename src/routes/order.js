@@ -10,6 +10,6 @@ router.get("/", isLoggedIn, orderController.getOrdersByUserId);
 router.get("/", isAdmin, orderController.getOrdersStatistics);
 
 //get order by id
-router.get("/:id", orderController.getOrdersById);
+router.get("/:id", isLoggedIn, orderController.getOrdersById);
 
 module.exports = router;

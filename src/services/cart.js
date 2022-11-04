@@ -2,16 +2,26 @@ const client = require("../models/db");
 const Cart = require("../models/cart");
 const { getProductById } = require("./product");
 const { createOrder } = require("./order");
+const { ObjectId } = require("mongodb");
 
 async function getCart(email) {
   await client.connect();
 
-  const cart = await Cart.findOne({ email, isPaid: false });
-  if (cart?.produts?.length) {
-    return await cart.products.map(async (prodcut) => {
+  const cart = await client
+    .db("storeDB")
+    .collection("carts")
+    .findOne({ email });
+  if (cart?.products?.length) {
+    const cartItems = client
+      .db("storeDB")
+      .collection("products")
+      .find({ _id: { $in: cart.products.map((item) => ObjectId(item.id)) } })
+      .toArray();
+
+    return (await cartItems).map((item) => {
       return {
-        quantity: prodcut.quantity,
-        ...(await getProductById(prodcut.id)),
+        ...item,
+        quantity: cart.products.find((p) => p.id == item._id).quantity,
       };
     });
   }
@@ -69,7 +79,7 @@ async function addProductToCart(email, { productId, amount = 1 }) {
     const cart = await client
       .db("storeDB")
       .collection("carts")
-      .findOne({ email, isPaid: false });
+      .findOne({ email });
 
     if (cart) {
       let exist = false;
@@ -98,16 +108,18 @@ async function addProductToCart(email, { productId, amount = 1 }) {
     return await client
       .db("storeDB")
       .collection("carts")
-      .insertOne({
-        email,
-        products: [{ id: productId, quantity: parsedAmount }],
-      });
+      .insertOne(
+        new Cart({
+          email,
+          products: [{ id: productId, quantity: parsedAmount }],
+        })
+      );
   } catch (err) {
     throw { code: 400, message: "Couldn't add product to cart" };
   }
 }
 
-async function removeProductFromCart(email, itemId) {
+async function removeProductFromCart(email, { itemId }) {
   try {
     if (!email || !itemId) {
       throw { code: 400, message: "Couldn't remove product from cart" };
