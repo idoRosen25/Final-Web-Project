@@ -48,7 +48,7 @@ async function removeProductFromCart(req, res) {
       req.body
     );
     if (product.acknowledged) {
-      res.json({ status: "success", code: 200 });
+      res.json({ status: "success", code: 200, product });
     } else {
       res.json({
         status: "error",
