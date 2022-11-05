@@ -53,7 +53,10 @@
                     <p class="card-text">Price: <%= items[i].price%>$</p>
                     <% if(username){%>
                     <div>
-                      <button class="btn btn-danger pt-1 pb-2">
+                      <button
+                        class="btn btn-danger pt-1 pb-2"
+                        onclick="addItemToWishlist('<%=items[i]._id%>')"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
