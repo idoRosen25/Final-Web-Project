@@ -20,4 +20,19 @@ async function addProduct(req, res) {
 async function addProductPage(req, res) {
   res.render("addProduct");
 }
-module.exports = { getProductsByCategory, addProduct, addProductPage };
+
+async function getProductById(req,res){
+  const {id}=req.params;
+  try{
+    const item = await productService.getProductById(id);
+    if(item){
+      res.render('addProduct',{item})
+    }else{
+      res.redirect("/product/add/new")
+    }
+  }catch(error){
+    res.redirect("/product/add/new")
+  }
+ 
+}
+module.exports = { getProductsByCategory, addProduct, addProductPage ,getProductById};
