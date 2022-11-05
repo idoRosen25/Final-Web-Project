@@ -21,3 +21,6 @@
 .map-min-ratio{
   min-height: 50vh;
 }
+#google-map {
+  height: 100%;
+}
