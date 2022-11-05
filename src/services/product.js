@@ -13,6 +13,7 @@ async function getProductsByCategory({category}) {
 }
 
 async function addProduct({ title, category, price, image }) {
+  console.log({title ,category ,price ,image})
   await client.connect();
   const item = await client
     .db("storeDB")

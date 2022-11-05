@@ -9,8 +9,8 @@ async function addProduct(req, res) {
   try {
     const item = await productService.addProduct(req.body);
     if (item) {
-      res.render("index");
-    } else {
+      res.redirect('index')
+       } else {
       throw { code: 400, message: "Couldn't add product" };
     }
   } catch (error) {
