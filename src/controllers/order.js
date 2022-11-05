@@ -1,8 +1,8 @@
 const orderService = require("../services/order");
 
 async function getOrdersByUserId(req, res) {
-  res.render("orders/" + res.session?.username, {
-    orderList: await orderService.getOrdersByUserId(req.session?.username),
+  res.render("orders/" + res.session.username, {
+    orderList: await orderService.getOrdersByUserId(req.session.username),
   });
 }
 async function getOrdersStatistics(req, res) {}

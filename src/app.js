@@ -22,14 +22,14 @@ app.use(
 );
 
 app.use(function (req, res, next) {
-  res.locals.username = req.session?.username ? req.session?.username : null;
-  // res.locals.username = req.session.username ? req.session.username : null;
+  // res.locals.username = req.session?.username ? req.session?.username : null;
+  res.locals.username = req.session.username ? req.session.username : null;
 
   next();
 });
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("mapToStore");
 });
 
 app.use("/user", require("./routes/user"));

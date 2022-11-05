@@ -11,7 +11,7 @@ async function getCart(email) {
     .db("storeDB")
     .collection("carts")
     .findOne({ email });
-  if (cart?.products?.length) {
+  if (cart.products.length) {
     const cartItems = client
       .db("storeDB")
       .collection("products")

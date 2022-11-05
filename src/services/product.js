@@ -2,7 +2,7 @@ const client = require("../models/db");
 const Product = require("../models/product");
 const { ObjectId } = require("mongodb");
 
-async function getProductsByCategory(category) {
+async function getProductsByCategory({category}) {
   await client.connect();
   const items = await client
     .db("storeDB")

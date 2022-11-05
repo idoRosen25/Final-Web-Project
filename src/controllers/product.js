@@ -1,7 +1,7 @@
 const productService = require("../services/product");
 
 async function getProductsByCategory(req, res) {
-  const items = await productService.getProductsByCategory(req.body.category);
+  const items = await productService.getProductsByCategory(req.body);
   return items;
 }
 
@@ -17,4 +17,7 @@ async function addProduct(req, res) {
     res.json({ status: "error", code: error.code, error: error.message });
   }
 }
-module.exports = { getProductsByCategory, addProduct };
+async function addProductPage(req, res) {
+  res.render("addProduct");
+}
+module.exports = { getProductsByCategory, addProduct, addProductPage };
