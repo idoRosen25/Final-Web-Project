@@ -1,13 +1,14 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username ? next() : res.redirect("/");
+  console.log(req.session.username);
+  req.session.username ? next() : res.render("index");
 }
 
 function isAdmin(req, res, next) {
   req.session.username && req.session.role === "admin"
     ? next()
-    : res.json({ code: 403, message: "Admins Only" });
+    : res.redirect("/");
 }
 
 async function login(req, res) {

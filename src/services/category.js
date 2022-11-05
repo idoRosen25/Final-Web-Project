@@ -2,13 +2,22 @@ const client = require("../models/db");
 const Category = require("../models/category");
 const { ObjectId } = require("mongodb");
 
-async function getCategories({ title }) {
+async function getCategories(title) {
   await client.connect();
-  const items = await client
-    .db("storeDB")
-    .collection("categories")
-    .find(title ? { title: title.toLowerCase() } : {})
-    .toArray();
+  let items = [];
+  if (title) {
+    items = await client
+      .db("storeDB")
+      .collection("products")
+      .find({ category: title })
+      .toArray();
+  } else {
+    items = await client
+      .db("storeDB")
+      .collection("categories")
+      .find({})
+      .toArray();
+  }
   return items;
 }
 

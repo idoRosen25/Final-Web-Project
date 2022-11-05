@@ -15,3 +15,6 @@
 .min-h-40 {
   min-height: 30vh !important;
 }
+.nav-link {
+  cursor: pointer !important;
+}

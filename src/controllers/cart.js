@@ -22,11 +22,11 @@ async function checkoutCart(req, res) {
 }
 
 async function addProductToCart(req, res) {
-  const product = await cartService.addProductToCart(
-    req.session.username,
-    req.body
-  );
   try {
+    const product = await cartService.addProductToCart(
+      req.session.username,
+      req.body
+    );
     if (product) {
       res.json({ status: "success", code: 200, product });
     } else {

@@ -4,7 +4,7 @@ const { isAdmin } = require("../controllers/user");
 
 const categoryController = require("../controllers/category");
 
-router.get("/", categoryController.getCategories);
+router.get("/:title", categoryController.getCategories);
 router.post("/add", isAdmin, categoryController.addCategory);
 router.post("/remove", isAdmin, categoryController.removeCategory);
 

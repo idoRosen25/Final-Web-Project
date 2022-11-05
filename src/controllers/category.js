@@ -1,9 +1,10 @@
 const categoryService = require("../services/category");
 
 async function getCategories(req, res) {
-  const items = await categoryService.getCategories(req.body);
+  const title = req.body.title || req.params.title;
+  const items = await categoryService.getCategories(title);
   if (items.length) {
-    res.json({ code: 200, items });
+    res.render("shop", { items });
   } else {
     res.json({ code: 400, items });
   }
@@ -18,7 +19,6 @@ async function addCategory(req, res) {
   } else {
     res.json({ code: 400, error: item });
   }
-  //   res.render("index");
 }
 
 async function removeCategory(req, res) {
