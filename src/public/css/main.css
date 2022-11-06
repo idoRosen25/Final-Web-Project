@@ -18,9 +18,9 @@
 .nav-link {
   cursor: pointer !important;
 }
-.map-min-ratio{
-  min-height: 50vh;
+.map-min-ratio {
+  min-height: 60vh;
 }
-#google-map {
+#map {
   height: 100%;
 }

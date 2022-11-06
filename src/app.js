@@ -2,7 +2,6 @@ const express = require("express");
 const bp = require("body-parser");
 const morgan = require("morgan");
 const view_path = __dirname + "/views";
-
 const app = express();
 
 app.use(bp.urlencoded({ extended: true }));
@@ -13,7 +12,7 @@ app.set("view engine", "ejs");
 app.set("views", view_path);
 
 const session = require("express-session");
-const { get } = require("lodash");
+
 app.use(
   session({
     secret: "secret",
@@ -32,9 +31,9 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.get('/about',(req,res)=>{
-  res.render("about")
-})
+app.get("/about", (req, res) => {
+  res.render("about");
+});
 app.use("/user", require("./routes/user"));
 app.use("/cart", require("./routes/cart"));
 app.use("/wishlist", require("./routes/wishlist"));
