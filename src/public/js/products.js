@@ -43,3 +43,28 @@ function addItemToWishlist(itemId) {
     },
   });
 }
+$("#productForm").submit(function (e) {
+  e.preventDefault();
+
+  var form = $(this);
+  var actionUrl = form.attr("action");
+
+  var overlay = $("#overlay");
+  $("#overlayText").text("Loading...");
+  overlay.toggleClass("d-none");
+  setTimeout(() => {
+    $.ajax({
+      type: "POST",
+      url: actionUrl,
+      data: form.serialize(),
+      success: (data) => {
+        if (data.code === 200) {
+          $("#overlayText").text(data.message);
+        }
+      },
+      error: (error) => {
+        $("#overlayText").text(error.error);
+      },
+    });
+  }, 1000);
+});

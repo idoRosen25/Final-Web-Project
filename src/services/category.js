@@ -8,8 +8,8 @@ async function getCategories(title) {
   if (title) {
     items = await client
       .db("storeDB")
-      .collection("products")
-      .find({ category: title })
+      .collection("categories")
+      .find({ title })
       .toArray();
   } else {
     items = await client
@@ -30,7 +30,6 @@ async function addCategory({ title }) {
     .find({ title: title.toLowerCase() })
     .toArray();
 
-  console.log("category found: ", item.length);
   if (!item.length) {
     try {
       return await client

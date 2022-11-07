@@ -1,7 +1,6 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  console.log(req.session.username);
   req.session.username ? next() : res.render("index");
 }
 

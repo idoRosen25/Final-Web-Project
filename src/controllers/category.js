@@ -12,7 +12,6 @@ async function getCategories(req, res) {
 
 async function addCategory(req, res) {
   const item = await categoryService.addCategory(req.body);
-  console.log(item.acknowledged);
 
   if (item.acknowledged) {
     res.json({ code: 200, item });
