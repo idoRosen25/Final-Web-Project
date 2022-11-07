@@ -48,9 +48,7 @@
   </div>
   <%- include('./partials/footer'); %>
 
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPFF88GMB8kVeAAK2KsaPVxv35UkuH3hM&callback=mapInitiator"
-      async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%=googleKey%>&callback=mapInitiator" async defer></script>
 </body>
 
 </html>

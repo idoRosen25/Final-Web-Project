@@ -1,112 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%- include('./partials/head')%>
-    <link rel="stylesheet" href="../public/css/main.css" />
-  </head>
 
-  <body>
-    <div
-      class="container-fluid overflow-hidden text-center bg-secondary min-fit"
-    >
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <%- include('./partials/head')%>
+    <link rel="stylesheet" href="../../public/css/main.css" />
+</head>
+
+<body>
+
+  <%- include('./partials/overlay') %>
+    <div class="container-fluid overflow-hidden text-center bg-secondary min-fit">
       <div class="row">
-        <div class="col-12"><%- include('./partials/header'); %></div>
-      </div>
-      <div class="row gy-5 mt-3">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <h2>Add Products</h2>
+        <div class="col-12">
+          <%- include('./partials/header'); %>
         </div>
-        <div class="col-2"></div>
-        <!-- <div class="col-2"></div> -->
+      </div>
+      <div class="row gy-4 mt-1 mb-5">
+        <div class="col-12 mb-2">
+          <h2>
+            <%=item? 'Edit' : 'Add' %> Product
+          </h2>
+        </div>
         <div class="col-xl-4 col-lg-6 col-md-8 col-11 container-fluid">
           <form id="productForm" action="/product/add" method="post">
             <div class="p-3 card bg-dark text-dark flex-grow">
-              <div class="col-1"></div>
-              <!-- kind of product: Meat/Sweats/Milky-stuff... -->
               <div class="col-10 container-fluid">
                 <div>
                   <div class="text-light">
                     <h4>Category</h4>
                   </div>
                   <div class="input-group">
-                    <select
-                      name="category"
-                      class="form-select"
-                      id="inputGroupSelect04"
-                      aria-label="Example select with button addon"
-                    >
-                      <option value="fruit" selected>Fruit</option>
-                      <option value="1">Sweats</option>
-                      <option value="2">Dairy</option>
-                      <option value="3">Fruites and Vegtebles</option>
+                    <select name="category" class="form-select" id="inputGroupSelect04"
+                      aria-label="Example select with button addon">
+                      <% for( let index=0; index < categories.length; index++ ) { %>
+                        <option class="capitalize" value="<%= categories[index].title%>" <%
+                          if(item){if(categories[index].title===item.category) 'selected' }else{ if(index===0
+                          ) 'selected' }%>>
+                          <%= categories[index].title.charAt(0).toUpperCase()+categories[index].title.slice(1)%>
+                        </option>
+                        <% } %>
                     </select>
                   </div>
                 </div>
               </div>
-              <div class="col-1"></div>
-              <!-- name -->
-              <div class="col-1"></div>
+
               <div class="col-10 container-fluid">
                 <div class="text-light mt-3">
                   <h4>Name</h4>
                 </div>
                 <div class="input-group">
-                  <input
-                    name="title"
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter name"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
-                  />
+                  <input name="title" type="text" class="form-control" placeholder="Enter name"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" required
+                    value="<%=item? item.title : null%>" />
                 </div>
+                <!-- price -->
               </div>
-              <div class="col-1"></div>
-              <!-- price -->
-              <div class="col-1"></div>
               <div class="col-10 container-fluid">
                 <div class="text-light mt-3">
                   <h4>Price</h4>
                 </div>
                 <div class="input-group">
-                  <input
-                    name="price"
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="Enter price"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
+                  <input name="price" type="number" min="0" class="form-control" placeholder="Enter price"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" required
+                    value="<%=item? item.price : null%>" />
                   />
                 </div>
               </div>
-              <div class="col-1"></div>
-              <!-- img source url-->
-              <div class="col-1"></div>
+
               <div class="col-10 container-fluid">
                 <div class="text-light mt-3">
                   <h4>Image url</h4>
                 </div>
                 <div class="input-group mb-3">
-                  <input
-                    name="image"
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter url"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
+                  <input name="image" type="text" class="form-control" placeholder="Enter url"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" required
+                    value="<%=item? item.image : null%>" />
                   />
                 </div>
               </div>
-              <div class="col-1"></div>
-              <!-- buttun -->
+
               <div>
                 <button type="submit" class="btn btn-primary">
                   Add Product
@@ -115,12 +90,12 @@
             </div>
           </form>
         </div>
-        <!-- <div class="col-2"></div> -->
-        <div></div>
       </div>
     </div>
+
     <%- include('./partials/footer'); %>
 
-    <script src="../public/js/products.js"></script>
-  </body>
+      <script src="../../public/js/products.js"></script>
+</body>
+
 </html>

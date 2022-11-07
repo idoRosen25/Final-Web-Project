@@ -1,4 +1,5 @@
 const productService = require("../services/product");
+const categoryService = require("../services/category");
 
 async function getProductsByCategory(req, res) {
   const items = await productService.getProductsByCategory(req.body);
@@ -9,8 +10,13 @@ async function addProduct(req, res) {
   try {
     const item = await productService.addProduct(req.body);
     if (item) {
-      res.redirect('index')
-       } else {
+      res.json({
+        status: "success",
+        message: "product added successfully",
+        code: 200,
+        item,
+      });
+    } else {
       throw { code: 400, message: "Couldn't add product" };
     }
   } catch (error) {
@@ -21,18 +27,29 @@ async function addProductPage(req, res) {
   res.render("addProduct");
 }
 
-async function getProductById(req,res){
-  const {id}=req.params;
-  try{
+async function getProductById(req, res) {
+  const { id } = req.params;
+  try {
+    if (id === "new") throw new Error();
     const item = await productService.getProductById(id);
-    if(item){
-      res.render('addProduct',{item})
-    }else{
-      res.redirect("/product/add/new")
+    if (item) {
+      res.render("addProduct", {
+        item,
+        categories: await categoryService.getCategories(),
+      });
+    } else {
+      throw new Error();
     }
-  }catch(error){
-    res.redirect("/product/add/new")
+  } catch (error) {
+    res.render("addProduct", {
+      item: null,
+      categories: await categoryService.getCategories(),
+    });
   }
- 
 }
-module.exports = { getProductsByCategory, addProduct, addProductPage ,getProductById};
+module.exports = {
+  getProductsByCategory,
+  addProduct,
+  addProductPage,
+  getProductById,
+};

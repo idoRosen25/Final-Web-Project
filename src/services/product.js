@@ -2,7 +2,7 @@ const client = require("../models/db");
 const Product = require("../models/product");
 const { ObjectId } = require("mongodb");
 
-async function getProductsByCategory({category}) {
+async function getProductsByCategory({ category }) {
   await client.connect();
   const items = await client
     .db("storeDB")
@@ -13,7 +13,6 @@ async function getProductsByCategory({category}) {
 }
 
 async function addProduct({ title, category, price, image }) {
-  console.log({title ,category ,price ,image})
   await client.connect();
   const item = await client
     .db("storeDB")
@@ -36,10 +35,10 @@ async function addProduct({ title, category, price, image }) {
         .collection("products")
         .insertOne(product);
     } catch (error) {
-      throw error;
+      return error;
     }
   } else {
-    throw { code: 400, message: "Product already exists" };
+    return { code: 400, message: "Product already exists" };
   }
 }
 

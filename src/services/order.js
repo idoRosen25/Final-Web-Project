@@ -59,7 +59,6 @@ async function getOrderById(orderId) {
       const prod = await getProductById(product.id);
       return { ...prod, quantity: product.quantity };
     });
-    console.log(order);
     return order;
   } catch (error) {
     return {

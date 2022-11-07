@@ -32,7 +32,9 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.get("/about", (req, res) => {
-  res.render("about");
+  res.render("about", {
+    googleKey: require("dotenv").config().parsed.GOOGLE_KEY,
+  });
 });
 app.use("/user", require("./routes/user"));
 app.use("/cart", require("./routes/cart"));
