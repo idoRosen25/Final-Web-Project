@@ -1,7 +1,7 @@
 const productModel = require("../models/product");
 const { ObjectId } = require("mongodb");
 
-async function getProductsByCategory({ category = "fruit" }) {
+async function getProductsByCategory({ category = "general" }) {
   const items = await productModel.find({ category: category.toLowerCase() });
   return items;
 }

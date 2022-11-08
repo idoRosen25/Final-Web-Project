@@ -3,7 +3,7 @@ const categoryService = require("../services/category");
 async function getCategories(req, res) {
   const title = req.body.title || req.params.title;
   const items = await categoryService.getCategories(title);
-  if (items.length) {
+  if (items) {
     res.render("shop", { items });
   } else {
     res.json({ code: 400, items });
