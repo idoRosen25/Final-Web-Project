@@ -5,8 +5,8 @@ const view_path = __dirname + "/views";
 const app = express();
 var mongoose = require("mongoose");
 
-const dotenv = require("dotenv");
-const { DB_USERNAME, DB_PASSWORD } = dotenv.config().parsed;
+const { DB_USERNAME, DB_PASSWORD, GOOGLE_KEY } =
+  require("dotenv").config().parsed;
 
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
@@ -32,14 +32,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
 app.get("/about", (req, res) => {
   res.render("about", {
-    googleKey: require("dotenv").config().parsed.GOOGLE_KEY,
+    googleKey: GOOGLE_KEY,
   });
 });
+
 app.use("/user", require("./routes/user"));
 app.use("/cart", require("./routes/cart"));
 app.use("/wishlist", require("./routes/wishlist"));
@@ -49,6 +47,11 @@ app.use("/order", require("./routes/order"));
 app.use("/error", (req, res) => {
   res.redirect("/");
 });
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
 app.use("*", (req, res) => {
   res.redirect("/error?code=404");
 });

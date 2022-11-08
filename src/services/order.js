@@ -1,19 +1,20 @@
 const Order = require("../models/order");
-const client = require("../models/db");
 const { ObjectId } = require("mongodb");
 const { getProductById } = require("./product");
 
-async function createOrder(email, products, totalPrice) {
-  const newOrder = new Order({
-    email,
-    products,
-    totalPrice,
-    date: new Date().getTime(),
-  });
-
+async function createOrder(email, products) {
   try {
-    await client.connect();
-    return await client.db("storeDB").collection("orders").insertOne(newOrder);
+    let totalPrice = 0;
+    products.forEach((item) => {
+      totalPrice += item.product.price * item.quantity;
+    });
+    const newOrder = new Order({
+      email,
+      products,
+      totalPrice,
+      date: new Date().getTime(),
+    });
+    return await newOrder.save();
   } catch (error) {
     throw {
       code: 400,

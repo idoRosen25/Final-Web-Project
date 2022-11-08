@@ -8,6 +8,11 @@ async function getCart(req, res) {
 async function clearCart(req, res) {
   try {
     await cartService.clearCart(req.session.username);
+    res.json({
+      status: "success",
+      code: 200,
+      message: "Cart cleared successfully",
+    });
   } catch (error) {
     res.json({ status: "error", code: error.code, error: error.message });
   }
@@ -15,6 +20,7 @@ async function clearCart(req, res) {
 async function checkoutCart(req, res) {
   try {
     await cartService.checkoutCart(req.session.username);
+
     res.render("index");
   } catch (error) {
     res.json({ status: "error", code: error.code, error: error.message });
@@ -47,7 +53,8 @@ async function removeProductFromCart(req, res) {
       req.session.username,
       req.body
     );
-    if (product.acknowledged) {
+
+    if (product) {
       res.json({ status: "success", code: 200, product });
     } else {
       res.json({

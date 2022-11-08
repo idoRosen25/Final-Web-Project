@@ -1,5 +1,4 @@
 const { ObjectId } = require("mongodb");
-const client = require("../models/db");
 
 async function getWishlist(email) {
   await client.connect();
