@@ -7,7 +7,7 @@ router.get("/", productController.getProductsByCategory);
 
 router.get("/add/:id", isAdmin, productController.getProductById);
 
-router.post("/add", isAdmin, productController.addProduct);
+router.post("/add", productController.addProduct);
 // remove product
 // update product
 
