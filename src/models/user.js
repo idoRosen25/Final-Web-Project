@@ -7,7 +7,8 @@ const User = mongoose.Schema({
   lastName: String,
   gender: String,
   age: Number,
-  role: String,
+  isAdmin: Boolean,
 });
 
-module.exports = mongoose.model("User", User);
+const userModel = mongoose.model("User", User);
+module.exports = userModel;

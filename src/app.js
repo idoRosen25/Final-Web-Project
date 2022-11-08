@@ -3,6 +3,10 @@ const bp = require("body-parser");
 const morgan = require("morgan");
 const view_path = __dirname + "/views";
 const app = express();
+var mongoose = require("mongoose");
+
+const dotenv = require("dotenv");
+const { DB_USERNAME, DB_PASSWORD } = dotenv.config().parsed;
 
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
@@ -51,4 +55,17 @@ app.use("*", (req, res) => {
 
 app.listen(5200, async () => {
   console.log("server running on port:5200");
+  mongoose
+    .connect(
+      `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@storecluster.c1sij6s.mongodb.net`,
+      {
+        dbName: "storeDB",
+      }
+    )
+    .then(() => {
+      console.log("connected to db using mongoose");
+    })
+    .catch((err) => {
+      console.log("couldnt connect to db from mongoose");
+    });
 });

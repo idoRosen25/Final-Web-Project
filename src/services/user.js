@@ -1,16 +1,13 @@
-const User = require("../models/user");
-const client = require("../models/db");
+const userModel = require("../models/user");
 const hashService = require("./hash");
 
 async function login(email, password) {
-  await client.connect();
-
   if (!email.match(/\S+@\S+\.\S+/)) {
     throw { status: "error", code: 401, message: "Invalid Email Address" };
   }
-  const user = await client.db("storeDB").collection("users").findOne({
-    email,
-  });
+
+  const user = await userModel.findOne({ email });
+
   if (user) {
     const compare = await hashService.compareHash(password, user.password);
     if (compare) {
@@ -24,10 +21,10 @@ async function registerUser(
   email,
   password,
   firstName,
-  lastName,
+  lastName = "unkown",
   gender,
   age,
-  role = "user"
+  isAdmin = false
 ) {
   if (parseInt(age) < 0)
     throw {
@@ -38,19 +35,26 @@ async function registerUser(
   if (!(await login(email, password))) {
     const hashedPass = await hashService.genHash(password);
 
-    const newUser = new User({
+    if (!password || !firstName || !gender || !age)
+      throw {
+        code: 400,
+        message: "Couldn't register user. Please try again later",
+      };
+
+    const newUser = new userModel({
       email,
       password: hashedPass,
       firstName,
       lastName,
       gender,
       age: parseInt(age),
-      role,
+      isAdmin,
     });
 
+    console.log("new user from model: ", newUser);
     try {
-      await client.connect();
-      return await client.db("storeDB").collection("users").insertOne(newUser);
+      console.log("trying to add nerw user");
+      return newUser.save();
     } catch (error) {
       throw {
         code: 400,
@@ -63,34 +67,35 @@ async function registerUser(
 }
 
 async function getUser(email) {
-  await client.connect();
-  const user = await client
-    .db("storeDB")
-    .collection("users")
-    .findOne({ email });
-
-  return user;
+  return userModel.findOne({ email });
 }
 
-async function updateUser(email, password, firstName, lastName, gender, age) {
-  await client.connect();
-  const currentUser = await getUser(email);
+async function updateUser(
+  email,
+  password,
+  firstName,
+  lastName,
+  gender,
+  age,
+  isRoleAdmin
+) {
+  const currentUser = await userModel.findOne({ email: "ido@gmail.com" });
   if (currentUser) {
-    const user = await client
-      .db("storeDB")
-      .collection("users")
-      .updateOne(
-        { email },
-        {
-          $set: {
-            password: password || currentUser.password,
-            firstName: firstName || currentUser.firstName,
-            lastName: lastName || currentUser.lastName,
-            gender: gender || currentUser.gender,
-            age: age || currentUser.age,
-          },
-        }
-      );
+    const hashPass = password
+      ? await hashService.genHash(password)
+      : currentUser.password;
+    const user = await userModel.updateOne(
+      { email: currentUser.email },
+      {
+        password: hashPass,
+        firstName: firstName || currentUser.firstName,
+        lastName: lastName || currentUser.lastName,
+        gender: gender || currentUser.gender,
+        age: age ? parseInt(age) : currentUser.age,
+        isRoleAdmin,
+      }
+    );
+    console.log("updated user: ", user);
     return user;
   }
   return null;
