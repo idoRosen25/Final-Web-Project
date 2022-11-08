@@ -35,6 +35,6 @@ async function addProduct({ title, category = "general", price, image = "" }) {
 }
 
 async function getProductById(id) {
-  return productModel.findById(ObjectId(id));
+  return await productModel.findById(ObjectId(id));
 }
 module.exports = { getProductsByCategory, addProduct, getProductById };

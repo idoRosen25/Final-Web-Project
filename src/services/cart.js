@@ -1,5 +1,4 @@
 const cartModel = require("../models/cart");
-const { getProductById } = require("./product");
 const { createOrder } = require("./order");
 const { ObjectId } = require("mongodb");
 
