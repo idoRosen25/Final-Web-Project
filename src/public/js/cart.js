@@ -3,11 +3,12 @@ function removeItemFromCart(itemId) {
     type: "DELETE",
     url: "/cart/remove",
     data: { itemId },
-    success: ({ status, product }) => {
-      if (status == "success" && product.acknowledged) {
-        $(`#${itemId}`).remove();
-      } else {
-        alert("Error removing item from cart");
+    success: ({ status, cart }) => {
+      if (status == "success") {
+        $(`#${itemId}`)[0].remove();
+        if (cart.products.length == 1) {
+          $(`#checkoutBtn`).remove();
+        }
       }
     },
     error: (error) => {

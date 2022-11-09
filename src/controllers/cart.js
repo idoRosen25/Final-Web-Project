@@ -1,8 +1,10 @@
 const cartService = require("../services/cart");
 
 async function getCart(req, res) {
+  const items = await cartService.getCart(req.session.username);
+  console.log("cart items: ", items);
   res.render("cart", {
-    items: await cartService.getCart(req.session.username),
+    items,
   });
 }
 async function clearCart(req, res) {
@@ -49,13 +51,13 @@ async function addProductToCart(req, res) {
 
 async function removeProductFromCart(req, res) {
   try {
-    const product = await cartService.removeProductFromCart(
+    const cart = await cartService.removeProductFromCart(
       req.session.username,
       req.body
     );
 
-    if (product) {
-      res.json({ status: "success", code: 200, product });
+    if (cart) {
+      res.json({ status: "success", code: 200, cart });
     } else {
       res.json({
         status: "error",

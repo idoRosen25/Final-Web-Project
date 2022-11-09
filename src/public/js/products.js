@@ -20,8 +20,6 @@ function addItemToCart(itemId) {
     success: function (data) {
       if (typeof data == "string") {
         window.location.href = "/";
-      } else {
-        alert("item added");
       }
     },
     error: function (error) {

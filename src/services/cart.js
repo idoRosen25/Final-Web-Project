@@ -7,7 +7,7 @@ async function getCart(email) {
     .findOne({ email })
     .populate("products.productId");
 
-  return userCart.products.length
+  return userCart?.products.length
     ? userCart.products.map((item) => ({
         product: item.productId,
         quantity: item.quantity,
