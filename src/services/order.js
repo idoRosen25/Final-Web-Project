@@ -1,19 +1,20 @@
-const Order = require("../models/order");
-const client = require("../models/db");
+const orderModel = require("../models/order");
 const { ObjectId } = require("mongodb");
 const { getProductById } = require("./product");
 
-async function createOrder(email, products, totalPrice) {
-  const newOrder = new Order({
-    email,
-    products,
-    totalPrice,
-    date: new Date().getTime(),
-  });
-
+async function createOrder(email, products) {
   try {
-    await client.connect();
-    return await client.db("storeDB").collection("orders").insertOne(newOrder);
+    let totalPrice = 0;
+    products.forEach((item) => {
+      totalPrice += item.product.price * item.quantity;
+    });
+    const newOrder = new orderModel({
+      email,
+      products,
+      totalPrice,
+      date: new Date().getTime(),
+    });
+    return await newOrder.save();
   } catch (error) {
     throw {
       code: 400,
@@ -24,19 +25,10 @@ async function createOrder(email, products, totalPrice) {
 
 async function getOrdersByUserId(email) {
   try {
-    await client.connect();
-    return (
-      (await client
-        .db("storeDB")
-        .collection("orders")
-        .find({ email })
-        .toArray()) || []
-    );
+    const orders = await orderModel.find({ email });
+    return orders;
   } catch (error) {
-    throw {
-      code: 400,
-      message: "Couldn't get orders. Please try again later",
-    };
+    return [];
   }
 }
 
@@ -48,17 +40,10 @@ async function getOrderById(orderId) {
         message: "Couldn't get order. Please try again later",
       };
 
-    await client.connect();
+    const order = await orderModel
+      .findOne({ _id: ObjectId(orderId) })
+      .populate("products.productId");
 
-    const order = await client
-      .db("storeDB")
-      .collection("orders")
-      .findOne({ _id: ObjectId(orderId) });
-
-    order.products = order.products.map(async (product) => {
-      const prod = await getProductById(product.id);
-      return { ...prod, quantity: product.quantity };
-    });
     return order;
   } catch (error) {
     return {

@@ -1,58 +1,46 @@
 const { ObjectId } = require("mongodb");
-const client = require("../models/db");
+const wishlistModel = require("../models/wishlist");
 
 async function getWishlist(email) {
-  await client.connect();
-
   if (!email) return false;
 
-  const items = await client
-    .db("storeDB")
-    .collection("wishlists")
-    .findOne({ user: email });
+  const wishlist = await wishlistModel
+    .findOne({ user: email })
+    .populate("itemIds.item");
 
-  if (items) {
-    const wishlist = await client
-      .db("storeDB")
-      .collection("products")
-      .find({ _id: { $in: items.itemIds.map((id) => ObjectId(id)) } })
-      .toArray();
-
-    return wishlist;
-  }
+  return wishlist.itemIds;
 }
 
 async function addItemToList(email, itemId) {
-  await client.connect();
   try {
     if (!email || !itemId) {
       throw new Error();
     }
-    await client
-      .db("storeDB")
-      .collection("wishlists")
-      .updateOne(
-        { user: email },
-        { $push: { itemIds: itemId } },
-        { upsert: true }
-      );
-    return true;
+    const wishlist = await wishlistModel.findOne({ user: email });
+    console.log("wishlist to add: ", wishlist);
+    if (wishlist.itemIds.find((item) => item.item.toString() == itemId))
+      return false;
+
+    await wishlistModel.updateOne(
+      { user: email },
+      { $push: { itemIds: { item: itemId } } },
+      { upsert: true }
+    );
   } catch (error) {
     console.log("error in add to wishlist: ", error);
     return false;
   }
 }
-async function removeItemFromList(email, itemId) {
-  await client.connect();
 
+async function removeItemFromList(email, itemId) {
   try {
     if (!email || !itemId) {
       throw new Error();
     }
-    await client
-      .db("storeDB")
-      .collection("wishlists")
-      .updateOne({ user: email }, { $pull: { itemIds: itemId } });
+    await wishlistModel.updateOne(
+      { user: email },
+      { $pull: { itemIds: { item: itemId } } }
+    );
     return true;
   } catch (error) {
     console.log("error in remove from wishlist: ", error);
@@ -61,15 +49,11 @@ async function removeItemFromList(email, itemId) {
 }
 
 async function clearWishlist(email) {
-  await client.connect();
   try {
     if (!email) {
       throw new Error();
     }
-    await client
-      .db("storeDB")
-      .collection("wishlists")
-      .deleteOne({ user: email });
+    await wishlistModel.deleteOne({ user: email });
     return true;
   } catch (error) {
     return false;

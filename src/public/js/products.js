@@ -20,13 +20,9 @@ function addItemToCart(itemId) {
     success: function (data) {
       if (typeof data == "string") {
         window.location.href = "/";
-      } else {
-        alert("item added");
       }
     },
-    error: function (error) {
-      alert("item not added to cart");
-    },
+    error: function (error) {},
   });
 }
 
@@ -35,12 +31,8 @@ function addItemToWishlist(itemId) {
     url: "/wishlist/add",
     type: "POST",
     data: { itemId },
-    success: function (data) {
-      alert("item added to wishlist");
-    },
-    error: function (error) {
-      alert("item not added to wishlist");
-    },
+    success: function (data) {},
+    error: function (error) {},
   });
 }
 $("#productForm").submit(function (e) {

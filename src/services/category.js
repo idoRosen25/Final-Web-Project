@@ -1,74 +1,37 @@
-const client = require("../models/db");
-const Category = require("../models/category");
+const categoryModel = require("../models/category");
 const { ObjectId } = require("mongodb");
+const { getProductsByCategory } = require("./product");
 
 async function getCategories(title) {
-  await client.connect();
-  let items = [];
   if (title) {
-    items = await client
-      .db("storeDB")
-      .collection("categories")
-      .find({ title })
-      .toArray();
+    return await getProductsByCategory({ category: title });
   } else {
-    items = await client
-      .db("storeDB")
-      .collection("categories")
-      .find({})
-      .toArray();
+    return await categoryModel.find({});
   }
-  return items;
 }
 
-async function addCategory({ title }) {
+async function addCategory({ title, image = "" }) {
   if (!title) return false;
-  await client.connect();
-  const item = await client
-    .db("storeDB")
-    .collection("categories")
-    .find({ title: title.toLowerCase() })
-    .toArray();
 
-  if (!item.length) {
-    try {
-      return await client
-        .db("storeDB")
-        .collection("categories")
-        .insertOne(
-          new Category({
-            title: title.toLowerCase(),
-          })
-        );
-    } catch (error) {
-      console.error("error on add product");
-      return error;
-    }
+  try {
+    return await new Category({
+      title: title.toLowerCase(),
+      image,
+    }).save();
+  } catch (error) {
+    return error;
   }
-  return "category already exists";
 }
 
 async function removeCategory({ id }) {
-  if (!id) return false;
-  await client.connect();
-  const item = await client
-    .db("storeDB")
-    .collection("categories")
-    .find({ _id: ObjectId(id) })
-    .toArray();
+  try {
+    if (!id) throw { status: "error", code: 400, message: "id is required" };
 
-  if (item.length) {
-    try {
-      return await client
-        .db("storeDB")
-        .collection("categories")
-        .deleteOne({ _id: ObjectId(id) });
-    } catch (error) {
-      console.error("error on remove category");
-      return error;
-    }
+    return await categoryModel.deleteOne({ _id: ObjectId(id) });
+  } catch (error) {
+    console.error("error on remove category");
+    return { ...error };
   }
-  return "category not found";
 }
 
 module.exports = { getCategories, addCategory, removeCategory };

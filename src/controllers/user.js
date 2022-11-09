@@ -5,9 +5,7 @@ function isLoggedIn(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  req.session.username && req.session.role === "admin"
-    ? next()
-    : res.redirect("/");
+  req.session.username && req.session.isAdmin ? next() : res.redirect("/");
 }
 
 async function login(req, res) {
@@ -18,7 +16,7 @@ async function login(req, res) {
 
     if (user) {
       req.session.username = email;
-      req.session.role = user.role;
+      req.session.iaAdmin = user.isAdmin;
       res.json({ status: "success", code: 200, user });
     } else {
       res.json({ status: "error", code: 401, message: "No User Found" });
@@ -29,7 +27,8 @@ async function login(req, res) {
 }
 
 async function register(req, res) {
-  const { email, password, firstName, lastName, gender, age, role } = req.body;
+  const { email, password, firstName, lastName, gender, age, isAdmin } =
+    req.body;
 
   try {
     const register = await userService.registerUser(
@@ -39,10 +38,11 @@ async function register(req, res) {
       lastName,
       gender,
       age,
-      role
+      isAdmin
     );
     if (register) {
       req.session.username = email;
+      req.session.iaAdmin = register.isAdmin;
       res.redirect("/");
     } else {
       throw Error();

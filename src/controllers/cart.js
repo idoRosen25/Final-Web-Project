@@ -1,13 +1,20 @@
 const cartService = require("../services/cart");
 
 async function getCart(req, res) {
+  const items = await cartService.getCart(req.session.username);
+  console.log("cart items: ", items);
   res.render("cart", {
-    items: await cartService.getCart(req.session.username),
+    items,
   });
 }
 async function clearCart(req, res) {
   try {
     await cartService.clearCart(req.session.username);
+    res.json({
+      status: "success",
+      code: 200,
+      message: "Cart cleared successfully",
+    });
   } catch (error) {
     res.json({ status: "error", code: error.code, error: error.message });
   }
@@ -15,6 +22,7 @@ async function clearCart(req, res) {
 async function checkoutCart(req, res) {
   try {
     await cartService.checkoutCart(req.session.username);
+
     res.render("index");
   } catch (error) {
     res.json({ status: "error", code: error.code, error: error.message });
@@ -43,12 +51,13 @@ async function addProductToCart(req, res) {
 
 async function removeProductFromCart(req, res) {
   try {
-    const product = await cartService.removeProductFromCart(
+    const cart = await cartService.removeProductFromCart(
       req.session.username,
       req.body
     );
-    if (product.acknowledged) {
-      res.json({ status: "success", code: 200, product });
+
+    if (cart) {
+      res.json({ status: "success", code: 200, cart });
     } else {
       res.json({
         status: "error",
