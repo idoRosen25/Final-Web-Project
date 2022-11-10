@@ -16,14 +16,13 @@ app.set("view engine", "ejs");
 app.set("views", view_path);
 
 const session = require("express-session");
+const sessionMiddleware = session({
+  secret: "secret",
+  saveUninitialized: true,
+  resave: false,
+});
 
-app.use(
-  session({
-    secret: "secret",
-    saveUninitialized: true,
-    resave: false,
-  })
-);
+app.use(sessionMiddleware);
 
 app.use(function (req, res, next) {
   // res.locals.username = req.session?.username ? req.session?.username : null;
@@ -57,7 +56,32 @@ app.use("*", (req, res) => {
   res.redirect("/error?code=404");
 });
 
-app.listen(5200, async () => {
+const httpServer = require("http").createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(httpServer);
+const wrap = (middleware) => (socket, next) =>
+  middleware(socket.request, {}, next);
+
+io.use(wrap(sessionMiddleware));
+
+io.use((socket, next) => {
+  const session = socket.request.session;
+  if (session && session.username) {
+    console.log("user is authed");
+    next();
+  } else {
+    next(new Error("unauthorized"));
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("user is connected: ", socket.request.session);
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
+httpServer.listen(5200, async () => {
   console.log("server running on port:5200");
   mongoose
     .connect(

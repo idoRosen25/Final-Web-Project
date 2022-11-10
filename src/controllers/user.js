@@ -1,7 +1,7 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username ? next() : res.render("index");
+  req.session.username ? next() : res.redirect("/");
 }
 
 function isAdmin(req, res, next) {
@@ -16,7 +16,7 @@ async function login(req, res) {
 
     if (user) {
       req.session.username = email;
-      req.session.iaAdmin = user.isAdmin;
+      req.session.isAdmin = user.isAdmin;
       res.json({ status: "success", code: 200, user });
     } else {
       res.json({ status: "error", code: 401, message: "No User Found" });
