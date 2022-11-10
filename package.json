@@ -27,6 +27,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19",
     "open": "^8.4.0",
+    "stripe": "^10.17.0",
+    "url": "^0.11.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {

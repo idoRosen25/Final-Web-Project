@@ -7,8 +7,6 @@ router.get("/", isLoggedIn, cartController.getCart);
 
 router.delete("/", isLoggedIn, cartController.clearCart);
 
-router.post("/checkout", isLoggedIn, cartController.checkoutCart);
-
 router.post("/add", isLoggedIn, cartController.addProductToCart);
 
 router.delete("/remove", isLoggedIn, cartController.removeProductFromCart);

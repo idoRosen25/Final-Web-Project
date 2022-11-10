@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../public/css/payment.css">
+    <%- include('./partials/head') %>
+        <title>Cart</title>
+</head>
+
+<body>
+    <%- include('./partials/overlay') %>
+        <%- include('./partials/header')%>
+            <div id="pay-form-container" class="container-fluid overflow-hidden text-center bg-secondary pt-5">
+                <form id="payment-form" class="m-auto my-5">
+                    <div id="payment-element" class="mt-3">
+                        <!--Stripe.js injects the Payment Element-->
+                    </div>
+                    <button id="submit" class="d-none">
+                        <div class="spinner hidden" id="spinner"></div>
+                        <span id="button-text">Pay now</span>
+                    </button>
+                    <p id="payment-message" class="hidden"></p>
+                </form>
+                <%- include('./partials/footer'); %>
+            </div>
+
+            <script src="https://js.stripe.com/v3/"></script>
+            <script src="../public/js/payment.js"></script>
+
+</body>
+
+</html>

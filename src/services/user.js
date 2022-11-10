@@ -51,9 +51,7 @@ async function registerUser(
       isAdmin,
     });
 
-    console.log("new user from model: ", newUser);
     try {
-      console.log("trying to add nerw user");
       return newUser.save();
     } catch (error) {
       throw {
@@ -95,7 +93,6 @@ async function updateUser(
         isRoleAdmin,
       }
     );
-    console.log("updated user: ", user);
     return user;
   }
   return null;

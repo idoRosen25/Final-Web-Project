@@ -17,7 +17,6 @@ async function addItemToList(email, itemId) {
       throw new Error();
     }
     const wishlist = await wishlistModel.findOne({ user: email });
-    console.log("wishlist to add: ", wishlist);
     if (wishlist.itemIds.find((item) => item.item.toString() == itemId))
       return false;
 

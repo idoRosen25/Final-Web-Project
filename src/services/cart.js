@@ -1,5 +1,4 @@
 const cartModel = require("../models/cart");
-const { createOrder } = require("./order");
 const { ObjectId } = require("mongodb");
 
 async function getCart(email) {
@@ -20,27 +19,6 @@ async function clearCart(email) {
     return await cartModel.findOneAndUpdate({ email }, { products: [] });
   } catch (error) {
     throw { code: 400, message: "Couldn't clear cart" };
-  }
-}
-
-async function checkoutCart(email) {
-  const checkoutProducts = await getCart(email);
-
-  if (checkoutProducts.length > 0) {
-    try {
-      const order = await createOrder(email, checkoutProducts);
-
-      if (order) {
-        await clearCart(email);
-        return true;
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      throw { code: 400, message: "Couldn't checkout cart" };
-    }
-  } else {
-    throw { code: 400, message: "Couldn't checkout cart" };
   }
 }
 
@@ -99,7 +77,6 @@ async function removeProductFromCart(email, { itemId }) {
 module.exports = {
   getCart,
   clearCart,
-  checkoutCart,
   addProductToCart,
   removeProductFromCart,
 };

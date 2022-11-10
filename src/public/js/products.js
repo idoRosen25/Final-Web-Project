@@ -1,3 +1,9 @@
+$(() => {
+  $("#overlay-dismiss-btn").click(() => {
+    $("#overlay").toggleClass("d-none");
+  });
+});
+
 $(".category-tab").map((index, ele) => {
   ele.addEventListener("click", (e) => {
     const isActive = e.target.className.includes("active");
