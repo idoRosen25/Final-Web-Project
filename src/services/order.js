@@ -1,13 +1,8 @@
 const orderModel = require("../models/order");
 const { ObjectId } = require("mongodb");
-const { getProductById } = require("./product");
 
-async function createOrder(email, products) {
+async function createOrder(email, products, totalPrice) {
   try {
-    let totalPrice = 0;
-    products.forEach((item) => {
-      totalPrice += item.product.price * item.quantity;
-    });
     const newOrder = new orderModel({
       email,
       products,
@@ -42,7 +37,7 @@ async function getOrderById(orderId) {
 
     const order = await orderModel
       .findOne({ _id: ObjectId(orderId) })
-      .populate("products.productId");
+      .populate("products.product");
 
     return order;
   } catch (error) {

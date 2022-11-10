@@ -18,15 +18,6 @@ async function clearCart(req, res) {
     res.json({ status: "error", code: error.code, error: error.message });
   }
 }
-async function checkoutCart(req, res) {
-  try {
-    await cartService.checkoutCart(req.session.username);
-
-    res.render("index");
-  } catch (error) {
-    res.json({ status: "error", code: error.code, error: error.message });
-  }
-}
 
 async function addProductToCart(req, res) {
   try {
@@ -71,7 +62,6 @@ async function removeProductFromCart(req, res) {
 module.exports = {
   getCart,
   clearCart,
-  checkoutCart,
   addProductToCart,
   removeProductFromCart,
 };

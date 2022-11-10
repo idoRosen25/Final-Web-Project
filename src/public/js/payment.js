@@ -24,28 +24,34 @@ $(() => {
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-  const response = await fetch("/checkout/create-payment", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items }),
+  $.ajax({
+    url: "/checkout/create-payment",
+    type: "POST",
+    data: JSON.stringify({ items }),
+    contentType: "application/json",
+    success: ({ clientSecret }) => {
+      const appearance = {
+        theme: "stripe",
+      };
+      elements = stripe.elements({
+        appearance,
+        clientSecret,
+      });
+
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+      setTimeout(() => {
+        $("#submit").toggleClass("d-none");
+      }, 300);
+    },
+    error: (err) => {
+      $("#overlay").toggleClass("d-none");
+      $("#overlayText").text("Something went wrong. Please try again later.");
+      $("#overlay-dismiss-btn").click(() => {
+        window.location.href = "/cart";
+      });
+    },
   });
-
-  const clientSecret = await response.json();
-  console.log("response: ", clientSecret);
-
-  const appearance = {
-    theme: "stripe",
-  };
-  elements = stripe.elements({
-    appearance,
-    clientSecret: clientSecret.clientSecret,
-  });
-
-  const paymentElement = elements.create("payment");
-  paymentElement.mount("#payment-element");
-  setTimeout(() => {
-    $("#submit").toggleClass("d-none");
-  }, 300);
 }
 
 async function handleSubmit(e) {

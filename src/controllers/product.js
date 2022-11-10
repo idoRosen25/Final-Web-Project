@@ -34,7 +34,6 @@ async function addProduct(req, res) {
 
 async function getProductById(req, res) {
   const { id } = req.params;
-  console.log("getProductById", id === "new");
 
   if (id === "new") {
     res.render("addProduct", {
