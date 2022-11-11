@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('./partials/head')%>
+        <link rel="stylesheet" href="../public/css/main.css" type="text" />
+        <link rel="stylesheet" href="../public/css/login-page.css" type="text" />
+</head>
+
+<body class="bg-secondary">
+
+    <%- include('./partials/header')%>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 m-auto">
+                    <input id="chatInput" autocomplete="off" placeholder="Enter text to add to chat" />
+                    <button>Send</button>
+                    <div id="chatAera"></div>
+                </div>
+            </div>
+        </div>
+        <%- include('./partials/footer')%>
+            <script src="/socket.io/socket.io.js"></script>
+            <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script> -->
+            <script>
+                $(() => {
+                    var socket = io();
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $('button').click(() => {
+                        socket.emit('new message', `${user.firstName} ${user.lastName}: ${$('#chatInput').val()}`);
+                        $('#chatInput').val('');
+                    })
+                    socket.on('new message', (msg) => {
+                        const msgWithBoldUser = msg.replace(`${user.firstName} ${user.lastName}:`, `<b>${user.firstName} ${user.lastName}:</b>`)
+                        $('#chatAera').append(msgWithBoldUser + '<br />');
+                    })
+                    socket.on('joined', (msg) => {
+                        $('#chatAera').append('A new user joined<br />');
+                    })
+                    socket.on('disconnected', (msg) => {
+                        $('#chatAera').append('A user disconnected<br />');
+                    })
+                })
+            </script>
+</body>
+
+</html>

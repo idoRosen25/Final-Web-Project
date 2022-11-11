@@ -42,7 +42,7 @@ async function register(req, res) {
     );
     if (register) {
       req.session.username = email;
-      req.session.iaAdmin = register.isAdmin;
+      req.session.isAdmin = register.isAdmin;
       res.redirect("/");
     } else {
       throw Error();
@@ -54,6 +54,11 @@ async function register(req, res) {
       error: error.message,
     });
   }
+}
+
+async function logout(req, res) {
+  req.session.destroy();
+  res.redirect("/");
 }
 
 async function getUser(req, res) {
@@ -88,4 +93,13 @@ async function updateUser(req, res) {
     message: "Couldn't update user info",
   });
 }
-module.exports = { login, register, isLoggedIn, isAdmin, getUser, updateUser };
+
+module.exports = {
+  login,
+  register,
+  isLoggedIn,
+  isAdmin,
+  getUser,
+  updateUser,
+  logout,
+};

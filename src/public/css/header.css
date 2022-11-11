@@ -16,3 +16,28 @@
   color: red;
   display: none;
 }
+
+#tooltip {
+  position: absolute;
+  background-color: white;
+  padding: 1%;
+  margin-left: -1.5%;
+  margin-top: 0.5%;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px 1px black;
+  max-width: 100px;
+}
+
+#tooltip a {
+  color: black;
+  text-decoration: none;
+}
+
+#tooltip td:hover {
+  border-radius: 5px;
+}
+
+#tooltip tr:hover {
+  background-color: gray;
+  cursor: pointer;
+}

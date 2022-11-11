@@ -37,12 +37,15 @@ app.get("/about", (req, res) => {
   });
 });
 
+app.get("/chat", async (req, res) => {
+  res.render("chatRoom");
+});
 app.use("/user", require("./routes/user"));
 app.use("/cart", require("./routes/cart"));
 app.use("/wishlist", require("./routes/wishlist"));
 app.use("/product", require("./routes/product"));
 app.use("/category", require("./routes/category"));
-app.use("/order", require("./routes/order"));
+app.use("/orders", require("./routes/order"));
 app.use("/checkout", require("./routes/checkout"));
 app.use("/error", (req, res) => {
   res.redirect("/");
@@ -59,25 +62,17 @@ app.use("*", (req, res) => {
 const httpServer = require("http").createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(httpServer);
-const wrap = (middleware) => (socket, next) =>
-  middleware(socket.request, {}, next);
-
-io.use(wrap(sessionMiddleware));
-
-io.use((socket, next) => {
-  const session = socket.request.session;
-  if (session && session.username) {
-    console.log("user is authed");
-    next();
-  } else {
-    next(new Error("unauthorized"));
-  }
-});
 
 io.on("connection", (socket) => {
-  console.log("user is connected: ", socket.request.session);
+  console.log("user is connected");
+  socket.broadcast.emit("joined", socket.request.session?.username);
   socket.on("disconnect", () => {
     console.log("user disconnected");
+  });
+
+  socket.on("new message", (msg) => {
+    console.log("new message from client: " + msg);
+    io.emit("new message", msg);
   });
 });
 
