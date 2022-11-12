@@ -1,7 +1,6 @@
 <div class="container-fluid p-0" id="1231">
-
   <!-- Footer -->
-  <footer class="text-center text-lg-start text-white main-footer" style="background-color: #000205" <!-- Right -->
+  <footer class="text-center text-lg-start text-white main-footer" style="background-color: #000205">
     <div>
       <a href="" class="text-white me-4">
         <i class="fab fa-facebook-f"></i>
@@ -101,16 +100,88 @@
     </section>
     <!-- Section: Links  -->
 
+    <div id="toastAlert" class="text-end justify-end" style="width:100vw;min-height:20vh;position:absolute;bottom:-2%;">
+
+    </div>
+
   </footer>
   <!-- Footer -->
 
 
-
 </div>
+
+
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="../../public/js/user.js"></script>
 <script src="../../public/js/main.js"></script>
+
+<script>
+
+  function removeToast(e) {
+    $('.toast')[0].remove()
+  }
+  $(() => {
+    var socket = io();
+
+    socket.on("connection", (socket) => {
+      console.log("user is connected");
+    });
+
+    socket.on("new product", (product) => {
+      console.log("new product added: ", product);
+      console.log('toaster container: ', $("#toastAlert"))
+      $("#toastAlert").append(
+        `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+        style="display:block;position:relative;border:1px solid green">
+        <div class="toast-header py-3">
+          <strong class="mr-auto">New Product Added</strong>
+          <button type="button" class="btn close my-2" data-dismiss="toast" aria-label="Close"
+            style="position:absolute;right:5%" onclick="removeToast(this)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body text-start">
+          <a class="capitalize toast-link" href='/category/${product.category}' >${product.title}</a>
+        </div>
+      </div>`
+      );
+    });
+
+
+    if ($("#productForm")) {
+      $("#productForm").submit(function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var actionUrl = form.attr("action");
+
+        var overlay = $("#overlay");
+        $("#overlayText").text("Loading...");
+        overlay.toggleClass("d-none");
+        setTimeout(() => {
+          $.ajax({
+            type: "POST",
+            url: actionUrl,
+            data: form.serialize(),
+            success: (data) => {
+              if (data.code === 200) {
+                socket.emit('new product', data.item);
+                $("#overlayText").text("");
+                overlay.toggleClass("d-none");
+              }
+            },
+            error: (error) => {
+              $("#overlayText").text(error.error);
+            },
+          });
+        }, 1000);
+      });
+    }
+  });
+
+</script>
