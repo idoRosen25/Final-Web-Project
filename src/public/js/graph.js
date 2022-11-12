@@ -43,4 +43,20 @@ $(() => {
   };
 
   agCharts.AgChart.create(options);
+
+  console.log($("#rangeSelect"));
+  $("#rangeSelect")[0].onchange = (e) => {
+    console.log("change e: ", e.target.value);
+    $.ajax({
+      type: "POST",
+      url: "/stats/range",
+      data: { range: e.target.value },
+      success: (data) => {
+        console.log("ajax data: ", data);
+      },
+      error: (error) => {
+        console.log("ajax error: ", error);
+      },
+    });
+  };
 });
