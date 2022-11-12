@@ -5,7 +5,7 @@ $(() => {
     if (user) {
       if (user.isAdmin) {
         $("#tooltip-body").append(
-          '<tr><td><a href="/orders/statistics">Statistics</a></td></tr>'
+          '<tr><td><a href="/stats">Statistics</a></td></tr>'
         );
       }
     }
