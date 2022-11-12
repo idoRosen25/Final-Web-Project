@@ -44,3 +44,29 @@ $("#loginForm").submit(function (e) {
     },
   });
 });
+
+
+$("#addUser").submit(function (e) {
+  e.preventDefault();
+
+  var form = $(this);
+  var actionUrl = form.attr("action");
+
+  console.log(form.serialize());
+  $.ajax({
+    type: "POST",
+    url: actionUrl,
+    data: form.serialize(),
+    success: (data) => {
+      
+      if (data.status == "success") {
+        location.replace("/");
+      }
+    },
+    error: (error) => {
+      $("#loginError").show();
+      signinBtn.value = "Sign In";
+      signinBtn.disabled = false;
+    },
+  });
+});

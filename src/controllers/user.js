@@ -30,6 +30,7 @@ async function register(req, res) {
   const { email, password, firstName, lastName, gender, age, isAdmin } =
     req.body;
 
+
   try {
     const register = await userService.registerUser(
       email,
@@ -42,8 +43,8 @@ async function register(req, res) {
     );
     if (register) {
       req.session.username = email;
-      req.session.isAdmin = register.isAdmin;
-      res.redirect("/");
+      req.session.iaAdmin = register.isAdmin;
+      res.json({status:"success",code:200,register});
     } else {
       throw Error();
     }

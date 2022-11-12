@@ -35,11 +35,6 @@ async function registerUser(
   if (!(await login(email, password))) {
     const hashedPass = await hashService.genHash(password);
 
-    if (!password || !firstName || !gender || !age)
-      throw {
-        code: 400,
-        message: "Couldn't register user. Please try again later",
-      };
 
     const newUser = new userModel({
       email,
