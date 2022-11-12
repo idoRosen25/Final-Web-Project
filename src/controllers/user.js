@@ -66,7 +66,8 @@ async function getUser(req, res) {
   const username = req.session.username;
   if (username) {
     const user = await userService.getUser(username);
-    res.json({ status: "success", code: 200, user });
+    console.log('user is: ',user)
+    res.render("addUser",{user});
   } else {
     res.redirect("/user/register");
   }
