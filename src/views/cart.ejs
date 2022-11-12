@@ -1,104 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
     <%- include('./partials/head') %>
-        <title>Cart</title>
-</head>
+    <title>Cart</title>
+  </head>
 
-<body>
+  <body>
     <div class="container-fluid overflow-hidden text-center bg-secondary">
-        <div class="row">
-            <div class="col-12">
-                <%- include('./partials/header'); %>
-            </div>
+      <div class="row">
+        <div class="col-12"><%- include('./partials/header'); %></div>
+      </div>
+      <div class="row mt-3">
+        <!-- checkout -->
+        <div class="m-auto col-8 mt-3 mb-5">
+          <h1>Checkout</h1>
         </div>
-        <div class="row  mt-3">
-            <!-- checkout -->
-            <div class="m-auto col-8 mt-3 mb-5">
-                <h1>Checkout</h1>
-            </div>
 
-            <div class="m-auto col-lg-8 col-md-10 col-12 min-h-40">
-                <div class="p-3 card bg-dark text-dark">
-                    <div class="table">
-                        <table class="table table-dark table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Products</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let i=0; i <=items.length-1; i++ ) { %>
-                                    <tr id="<%= items[i].product._id.toString() %>">
-                                        <td>
-                                            <img src="<%= items[i].product.image %>" class="rounded mx-auto d-block"
-                                                alt="Banana" style="height: 100px; width: 100px" />
-                                        </td>
-                                        <td>
-                                            <div class="mt-4">
-                                                <%= items[i].product.title%>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-group mb-3 mt-4">
-                                                <!-- <button class="btn btn-outline-light" type="button">-</button> -->
-                                                <input type="number" class="form-control"
-                                                    value="<%= items[i].quantity%>" min="0" max="15"
-                                                    aria-label="Example text with two button addons"
-                                                    style="width: 1px" />
-                                                <!-- <button class="btn btn-outline-light" type="button">+</button> -->
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="mt-4">
-                                                <%= items[i].product.price*items[i].quantity%> $
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button onclick="removeItemFromCart('<%=items[i].product._id%>')"
-                                                type="button" class="btn btn-danger mt-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                                                </svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="m-auto col-lg-8 col-md-10 col-12 min-h-40">
+          <div class="p-3 card bg-dark text-dark">
+            <div class="table">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( let i=0; i <=items.length-1; i++ ) { %>
+                  <tr id="<%= items[i].product._id.toString() %>">
+                    <td>
+                      <img
+                        src="<%= items[i].product.image %>"
+                        class="rounded mx-auto d-block"
+                        alt="Banana"
+                        style="height: 100px; width: 100px"
+                      />
+                    </td>
+                    <td>
+                      <div class="mt-4"><%= items[i].product.title%></div>
+                    </td>
+                    <td>
+                      <div class="input-group mb-3 mt-4">
+                        <!-- <button class="btn btn-outline-light" type="button">-</button> -->
+                        <input
+                          type="number"
+                          class="form-control"
+                          value="<%= items[i].quantity%>"
+                          min="0"
+                          max="15"
+                          aria-label="Example text with two button addons"
+                          style="width: 1px"
+                        />
+                        <!-- <button class="btn btn-outline-light" type="button">+</button> -->
+                      </div>
+                    </td>
+                    <td>
+                      <div class="mt-4">
+                        <%= items[i].product.price*items[i].quantity%> $
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        onclick="removeItemFromCart('<%=items[i].product._id%>')"
+                        type="button"
+                        class="btn btn-danger mt-4"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-trash3"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
-        <div class="row gy-5 mt-3 text-center mb-5 pt-5">
-            <div class="m-auto col-4">
-                <% if(items.length){%>
-                    <a id="checkoutBtn" ype="button" class="btn btn-light btn-lg" href="/checkout/create-payment">
-                        Submit Payment
-                    </a>
-                    <%}%>
-            </div>
+      </div>
+      <div class="row gy-5 mt-3 text-center mb-5 pt-5">
+        <div class="m-auto col-4">
+          <% if(items.length){%>
+          <a
+            id="checkoutBtn"
+            ype="button"
+            class="btn btn-light btn-lg"
+            href="/checkout/create-payment"
+          >
+            Submit Payment
+          </a>
+          <%}%>
         </div>
-        <%- include('./partials/footer'); %>
+      </div>
+      <%- include('./partials/footer'); %>
     </div>
 
     <script src="../public/js/cart.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-
-</body>
-
+  </body>
 </html>
-
-<!-- <input class="form-control" type="text" value="Readonly input here..." aria-label="readonly input example" readonly> -->

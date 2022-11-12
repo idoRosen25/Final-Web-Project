@@ -27,7 +27,7 @@ async function getOrdersByUserId(email) {
   }
 }
 
-async function getOrderById(orderId) {
+async function getOrderById(email, orderId) {
   try {
     if (!orderId)
       throw {
@@ -36,9 +36,10 @@ async function getOrderById(orderId) {
       };
 
     const order = await orderModel
-      .findOne({ _id: ObjectId(orderId) })
+      .findOne({ email, _id: ObjectId(orderId) })
       .populate("products.product");
 
+    console.log("this is my order: ", order);
     return order;
   } catch (error) {
     return {
