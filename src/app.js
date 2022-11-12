@@ -71,7 +71,7 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(5200, async () => {
+httpServer.listen(5100, async () => {
   console.log("server running on port:5200");
   mongoose
     .connect(
