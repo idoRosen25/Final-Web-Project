@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <%- include('./partials/head') %>
+  </head>
+
+  <body>
+    <div class="container-fluid overflow-hidden text-center">
+      <%- include('./partials/header'); %>
+      <div class="row">
+        <div class="m-auto my-4 col-8" style="border: 1px solid red">
+          <div class="m-auto col-2">
+            <select class="form-select mb-2">
+              <option selected>Select</option>
+              <option value="week">Last Week</option>
+              <option value="month">Last Month</option>
+              <option value="year">Last Year</option>
+            </select>
+          </div>
+
+          <div id="myChart" class=""></div>
+        </div>
+        <div class="m-auto col-8 my-4">Analitics 2</div>
+        <div class="m-auto col-8 my-4">Analitics 3</div>
+      </div>
+
+      <%- include('./partials/footer'); %>
+      <script src="../public/js/graph.js"></script>
+    </div>
+  </body>
+</html>
+
+<script src="https://unpkg.com/ag-charts-community/dist/ag-charts-community.min.js"></script>

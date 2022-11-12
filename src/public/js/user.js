@@ -5,7 +5,7 @@ $(() => {
     if (user) {
       if (user.isAdmin) {
         $("#tooltip-body").append(
-          '<tr><td><a href="/order/statistics">Statistics</a></td></tr>'
+          '<tr><td><a href="/orders/statistics">Statistics</a></td></tr>'
         );
       }
     }
@@ -45,7 +45,6 @@ $("#loginForm").submit(function (e) {
   });
 });
 
-
 $("#addUser").submit(function (e) {
   e.preventDefault();
 
@@ -58,7 +57,6 @@ $("#addUser").submit(function (e) {
     url: actionUrl,
     data: form.serialize(),
     success: (data) => {
-      
       if (data.status == "success") {
         location.replace("/");
       }
