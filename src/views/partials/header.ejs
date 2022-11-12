@@ -47,16 +47,41 @@
               </a>
             </li>
             <li class="nav-item" style="text-decoration-color: white">
-              <a href="/account" class="text-muted d-none d-md-block">
+              <span id="accountIcon" href="/account" class="text-muted d-none d-md-block" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-html="true" title="<b>this is bold tooltip</b>"
+                onclick="toggleTooltip()" style="cursor:pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
                   stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="feather feather-user bordered-icon">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-              </a>
-              <a href="/" class="nav-link d-block d-md-none user-nav">
+              </span>
+
+              <table id="tooltip" class="table d-none text-center">
+                <tbody id="tooltip-body">
+                  <tr>
+                    <td><a href="/user/account">
+                        Account
+                      </a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="/orders">Orders</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="/user/logout">Logout</a></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <a href="/user/account" class="nav-link d-block d-md-none">
                 My Account
+              </a>
+              <a href="/orders" class="nav-link d-block d-md-none">
+                My Orders
+              </a>
+              <a href="/user/logout" class="nav-link d-block d-md-none">
+                Logout
               </a>
             </li>
             <%}else{%>

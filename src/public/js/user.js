@@ -1,3 +1,17 @@
+$(() => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log("user form local storage: ", user);
+    if (user) {
+      if (user.isAdmin) {
+        $("#tooltip-body").append(
+          '<tr><td><a href="/order/statistics">Statistics</a></td></tr>'
+        );
+      }
+    }
+  } catch (error) {}
+});
+
 $("#loginForm").submit(function (e) {
   e.preventDefault();
 
@@ -13,8 +27,9 @@ $("#loginForm").submit(function (e) {
     type: "POST",
     url: actionUrl,
     data: form.serialize(),
-    success: (data) => {
-      if (data.status == "success") {
+    success: ({ status, user }) => {
+      if (status == "success") {
+        localStorage.setItem("user", JSON.stringify(user));
         location.reload();
       } else {
         $("#loginError").show();

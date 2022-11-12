@@ -16,14 +16,13 @@ app.set("view engine", "ejs");
 app.set("views", view_path);
 
 const session = require("express-session");
+const sessionMiddleware = session({
+  secret: "secret",
+  saveUninitialized: true,
+  resave: false,
+});
 
-app.use(
-  session({
-    secret: "secret",
-    saveUninitialized: true,
-    resave: false,
-  })
-);
+app.use(sessionMiddleware);
 
 app.use(function (req, res, next) {
   // res.locals.username = req.session?.username ? req.session?.username : null;
@@ -43,7 +42,7 @@ app.use("/cart", require("./routes/cart"));
 app.use("/wishlist", require("./routes/wishlist"));
 app.use("/product", require("./routes/product"));
 app.use("/category", require("./routes/category"));
-app.use("/order", require("./routes/order"));
+app.use("/orders", require("./routes/order"));
 app.use("/checkout", require("./routes/checkout"));
 app.use("/error", (req, res) => {
   res.redirect("/");
@@ -57,7 +56,22 @@ app.use("*", (req, res) => {
   res.redirect("/error?code=404");
 });
 
-app.listen(5200, async () => {
+const httpServer = require("http").createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(httpServer);
+
+io.on("connection", (socket) => {
+  console.log("user is connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+
+  socket.on("new product", (product) => {
+    socket.emit("new product", product);
+  });
+});
+
+httpServer.listen(5200, async () => {
   console.log("server running on port:5200");
   mongoose
     .connect(

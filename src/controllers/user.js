@@ -1,7 +1,7 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username ? next() : res.render("index");
+  req.session.username ? next() : res.redirect("/");
 }
 
 function isAdmin(req, res, next) {
@@ -16,7 +16,7 @@ async function login(req, res) {
 
     if (user) {
       req.session.username = email;
-      req.session.iaAdmin = user.isAdmin;
+      req.session.isAdmin = user.isAdmin;
       res.json({ status: "success", code: 200, user });
     } else {
       res.json({ status: "error", code: 401, message: "No User Found" });
@@ -42,7 +42,7 @@ async function register(req, res) {
     );
     if (register) {
       req.session.username = email;
-      req.session.iaAdmin = register.isAdmin;
+      req.session.isAdmin = register.isAdmin;
       res.redirect("/");
     } else {
       throw Error();
@@ -54,6 +54,11 @@ async function register(req, res) {
       error: error.message,
     });
   }
+}
+
+async function logout(req, res) {
+  req.session.destroy();
+  res.redirect("/");
 }
 
 async function getUser(req, res) {
@@ -88,4 +93,13 @@ async function updateUser(req, res) {
     message: "Couldn't update user info",
   });
 }
-module.exports = { login, register, isLoggedIn, isAdmin, getUser, updateUser };
+
+module.exports = {
+  login,
+  register,
+  isLoggedIn,
+  isAdmin,
+  getUser,
+  updateUser,
+  logout,
+};

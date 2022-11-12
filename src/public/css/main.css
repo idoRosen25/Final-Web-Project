@@ -41,3 +41,10 @@
 .overlay:hover {
   position: fixed;
 }
+.toast-link {
+  font-weight: bold;
+  text-decoration: none;
+}
+.toast-link:hover {
+  text-decoration-line: underline;
+}
