@@ -39,7 +39,6 @@ async function getOrderById(email, orderId) {
       .findOne({ email, _id: ObjectId(orderId) })
       .populate("products.product");
 
-    console.log("this is my order: ", order);
     return order;
   } catch (error) {
     return {

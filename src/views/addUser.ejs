@@ -18,7 +18,7 @@
       </div>
       <div class="row gy-4 mt-1 mb-5">
         <div class="col-12 mb-2">
-          <h2>Add User</h2>
+          <h2><%=user ? `Username: ${user.email}` : 'Add User'%></h2>
         </div>
         <div class="col-xl-4 col-lg-6 col-md-8 col-11 container-fluid">
           <form id="addUser" action="/user/register" method="post">
@@ -36,6 +36,8 @@
                     aria-label="Recipient's username"
                     aria-describedby="button-addon2"
                     required
+                    value="<%=user ?
+                  user.firstName:null %>"
                   />
                 </div>
                 <div class="text-light mt-3">
@@ -50,10 +52,15 @@
                     aria-label="Recipient's username"
                     aria-describedby="button-addon2"
                     required
+                    value="<%=user ?
+                  user.lastName:null %>"
                   />
                 </div>
                 <!-- Email -->
               </div>
+
+              <!-- password -->
+              <% if(!user){%>
               <div class="col-10 container-fluid">
                 <div class="mb-3 mt-3">
                   <label
@@ -66,12 +73,12 @@
                     type="email"
                     class="form-control"
                     placeholder="name@example.com"
+                    required
+                    value="<%=user ?
+                      user.email:null %>"
                   />
                 </div>
               </div>
-
-              <!-- password -->
-
               <div class="col-10 container-fluid">
                 <div class="text-light">
                   <h4>Password</h4>
@@ -100,13 +107,17 @@
                   class="form-select"
                   type="gender"
                   aria-label="Default select example"
+                  required
+                  value="<%=user ?
+                  user.gender:null %>"
                 >
                   <option selected>Open this to select gender</option>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                  <option value="3">Other</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
+              <%}%>
 
               <div class="col-10 container-fluid">
                 <div class="text-light mt-3">
@@ -122,13 +133,15 @@
                     aria-label="Recipient's username"
                     aria-describedby="button-addon2"
                     required
+                    value="<%=user ?
+                  user.age:null %>"
                   />
                 </div>
               </div>
 
               <div>
                 <button type="submit" class="btn btn-primary mt-3">
-                  Sign In
+                  <%=user ? "Update" : "Sign In"%>
                 </button>
               </div>
             </div>

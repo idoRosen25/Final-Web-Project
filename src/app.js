@@ -44,13 +44,14 @@ app.use("/product", require("./routes/product"));
 app.use("/category", require("./routes/category"));
 app.use("/orders", require("./routes/order"));
 app.use("/checkout", require("./routes/checkout"));
-app.use("/error", (req, res) => {
-  res.redirect("/");
+app.use("/stats", require("./routes/stats"));
+app.get("/error", (req, res) => {
+  res.render("errorPage");
 });
 
 app.get("/", (req, res) => {
   res.render("index");
-})
+});
 app.use("*", (req, res) => {
   res.redirect("/error?code=404");
 });
