@@ -45,8 +45,8 @@ app.use("/category", require("./routes/category"));
 app.use("/orders", require("./routes/order"));
 app.use("/checkout", require("./routes/checkout"));
 app.use("/stats", require("./routes/stats"));
-app.use("/error", (req, res) => {
-  res.redirect("/");
+app.get("/error", (req, res) => {
+  res.render("errorPage");
 });
 
 app.get("/", (req, res) => {
@@ -71,7 +71,7 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(5100, async () => {
+httpServer.listen(5200, async () => {
   console.log("server running on port:5200");
   mongoose
     .connect(

@@ -1,11 +1,13 @@
 const userService = require("../services/user");
 
 function isLoggedIn(req, res, next) {
-  req.session.username ? next() : res.redirect("/");
+  req.session.username ? next() : res.redirect("/error?code=401");
 }
 
 function isAdmin(req, res, next) {
-  req.session.username && req.session.isAdmin ? next() : res.redirect("/");
+  req.session.username && req.session.isAdmin
+    ? next()
+    : res.redirect("/error?code=403");
 }
 
 async function login(req, res) {
@@ -30,7 +32,6 @@ async function register(req, res) {
   const { email, password, firstName, lastName, gender, age, isAdmin } =
     req.body;
 
-
   try {
     const register = await userService.registerUser(
       email,
@@ -44,7 +45,7 @@ async function register(req, res) {
     if (register) {
       req.session.username = email;
       req.session.iaAdmin = register.isAdmin;
-      res.json({status:"success",code:200,register});
+      res.json({ status: "success", code: 200, register });
     } else {
       throw Error();
     }
@@ -64,12 +65,12 @@ async function logout(req, res) {
 
 async function getUser(req, res) {
   const username = req.session.username;
+  console.log("username in get user: ", username);
   if (username) {
     const user = await userService.getUser(username);
-    console.log('user is: ',user)
-    res.render("addUser",{user});
+    res.render("addUser", { user });
   } else {
-    res.redirect("/user/register");
+    res.redirect("/user/add-user");
   }
 }
 

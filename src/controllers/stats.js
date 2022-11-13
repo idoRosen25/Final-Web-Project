@@ -1,6 +1,7 @@
 const statsService = require("../services/stats");
 
 async function getByRange(req, res) {
+  console.log("req params: ", req.params);
   const { range } = req.body;
 
   try {

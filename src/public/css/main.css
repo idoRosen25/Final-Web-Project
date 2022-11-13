@@ -3,6 +3,19 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+#errorCode {
+  font-size: 8rem;
+  font-weight: 700;
+  color: red;
+  text-decoration-line: underline;
+}
+
+#errorText {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
 .container-fluid {
   padding: 0 !important;
 }
