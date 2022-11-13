@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isAdmin, isLoggedIn } = require("../controllers/user");
+const { isLoggedIn } = require("../controllers/user");
 const orderController = require("../controllers/order");
 
 //get orders for user

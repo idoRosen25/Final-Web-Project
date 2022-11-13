@@ -1,7 +1,6 @@
 $(() => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log("user form local storage: ", user);
     if (user) {
       if (user.isAdmin) {
         $("#tooltip-body").append(

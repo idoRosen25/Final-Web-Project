@@ -129,8 +129,6 @@
     });
 
     socket.on("new product", (product) => {
-      console.log("new product added: ", product);
-      console.log('toaster container: ', $("#toastAlert"))
       $("#toastAlert").append(
         `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
         style="display:block;position:relative;border:1px solid green">

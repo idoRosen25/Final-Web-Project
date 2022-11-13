@@ -3,7 +3,7 @@ const wishlistService = require("../services/wishlist");
 async function getWishlist(req, res) {
   const items = await wishlistService.getWishlist(req.session.username);
   if (items) {
-    return items;
+    res.render("wishlist", { items });
   } else {
     res.json({ code: 400, success: false, message: "Couldn't get wishlist" });
   }

@@ -65,7 +65,6 @@ async function logout(req, res) {
 
 async function getUser(req, res) {
   const username = req.session.username;
-  console.log("username in get user: ", username);
   if (username) {
     const user = await userService.getUser(username);
     res.render("addUser", { user });

@@ -4,7 +4,7 @@ async function getCheckoutPage(req, res) {
   const redirectStatus = req.query.redirect_status == "succeeded";
 
   if (redirectStatus) {
-    await checkoutService.checkoutCart(req.session.username || "ido@gmail.com");
+    await checkoutService.checkoutCart(req.session.username);
   }
 
   res.render("payment");

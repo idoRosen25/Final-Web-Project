@@ -35,7 +35,6 @@ async function registerUser(
   if (!(await login(email, password))) {
     const hashedPass = await hashService.genHash(password);
 
-
     const newUser = new userModel({
       email,
       password: hashedPass,
@@ -72,7 +71,7 @@ async function updateUser(
   age,
   isRoleAdmin
 ) {
-  const currentUser = await userModel.findOne({ email: "ido@gmail.com" });
+  const currentUser = await userModel.findOne({ email });
   if (currentUser) {
     const hashPass = password
       ? await hashService.genHash(password)

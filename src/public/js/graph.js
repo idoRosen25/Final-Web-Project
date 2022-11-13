@@ -1,62 +1,113 @@
-$(() => {
-  var data = [
+var defaultChartOptions = {
+  data: [],
+  padding: {
+    top: 40,
+    right: 40,
+    left: 40,
+    bottom: 40,
+  },
+  legend: {
+    spacing: 40,
+  },
+  series: [
     {
-      name: "1",
-      Q1: 1200,
+      type: "column",
+      xKey: "name",
+      yKey: "orderCount",
+      stacked: true,
     },
-    {
-      name: "2",
-      Q1: 1000,
-    },
-    {
-      name: "3",
-      Q1: 500,
-    },
-  ];
+  ],
+};
 
+function loadGraph(container, rangeOptions) {
   var options = {
-    container: $("#myChart")[0],
-    data,
-    title: {
-      text: "Orders",
-    },
-    subtitle: {
-      text: "order subtotle",
-    },
-    padding: {
-      top: 40,
-      right: 40,
-      left: 40,
-      bottom: 40,
-    },
-    legend: {
-      spacing: 40,
-    },
-    series: [
-      {
-        type: "column",
-        xKey: "name",
-        yKey: "Q1",
-        stacked: true,
-      },
-    ],
+    container,
+    ...rangeOptions,
   };
 
   agCharts.AgChart.create(options);
+}
 
-  console.log($("#rangeSelect"));
+function loadTopCategories() {
+  $.ajax({
+    type: "GET",
+    url: "/stats/top-category",
+    success: (data) => {
+      if ($("#categoryChart")[0].children.length) {
+        $("#categoryChart")[0].children[0].remove();
+      }
+      if (data.code === 200) {
+        loadGraph($("#categoryChart")[0], {
+          ...defaultChartOptions,
+          ...data.stats,
+        });
+      } else {
+        $("#categoryChart")[0].append("<h4>No Data For Graph</h4>");
+      }
+    },
+    error: (error) => {
+      console.log("ajax error: ", error);
+    },
+  });
+}
+
+function loadToUsers() {
+  $.ajax({
+    type: "GET",
+    url: "/stats/top-users",
+    success: (data) => {
+      if ($("#usersChart")[0]?.children.length) {
+        $("#usersChart")[0]?.children[0].remove();
+      }
+      if (data.code === 200) {
+        loadGraph($("#usersChart")[0], {
+          ...defaultChartOptions,
+          ...data.stats,
+        });
+      } else {
+        $("#usersChart")[0].append("<h4>No Data For Graph</h4>");
+      }
+    },
+    error: (error) => {
+      console.log("ajax error: ", error);
+    },
+  });
+}
+
+$(() => {
+  var rangeContainer = $("#rangeChart")[0];
+
+  loadGraph(rangeContainer, {
+    ...defaultChartOptions,
+    title: { text: "Orders by range" },
+  });
+
+  loadTopCategories();
+  loadToUsers();
+
   $("#rangeSelect")[0].onchange = (e) => {
-    console.log("change e: ", e.target.value);
+    if (e.target.value == "reset") {
+      rangeContainer.children[0].remove();
+    }
     $.ajax({
-      type: "POST",
-      url: "/stats/range",
-      data: { range: e.target.value },
+      type: "GET",
+      url: "/stats/range/" + e.target.value,
       success: (data) => {
-        console.log("ajax data: ", data);
+        if (rangeContainer.children.length) {
+          rangeContainer.children[0].remove();
+        }
+        loadGraph(rangeContainer, {
+          ...defaultChartOptions,
+          ...data.rangeOptions,
+        });
       },
       error: (error) => {
         console.log("ajax error: ", error);
       },
     });
   };
+
+  $("#categoryChartBtn").onclick = () => loadTopCategories;
+
+  $("#usersChartBtn").onclick = () => loadToUsers;
 });

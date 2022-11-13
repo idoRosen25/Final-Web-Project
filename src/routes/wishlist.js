@@ -3,9 +3,7 @@ const { isLoggedIn } = require("../controllers/user");
 const router = express.Router();
 const wishlistController = require("../controllers/wishlist");
 
-router.get("/", isLoggedIn, async (req, res) => {
-  res.render("wishlist", { items: await wishlistController.getWishlist(req) });
-});
+router.get("/", isLoggedIn, wishlistController.getWishlist);
 
 router.post("/add", isLoggedIn, wishlistController.addItemToList);
 

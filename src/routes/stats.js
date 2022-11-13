@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const statController = require("../controllers/stats");
+const { isAdmin } = require("../controllers/user");
 
-
-router.post("/range", statController.getByRange);
-
+router.get("/range/:range", isAdmin, statController.getOrdersByRange);
+router.get("/top-category", isAdmin, statController.getTopCategories);
+router.get("/top-users", isAdmin, statController.getTopUsers);
 
 router.get("/", async (req, res) => {
-    console.log("in stats page");
-    res.render("statistics");
-  });
+  res.render("statsPage");
+});
 module.exports = router;
