@@ -1,7 +1,9 @@
 const cartService = require("../services/cart");
 
 async function getCart(req, res) {
-  const items = await cartService.getCart(req.session.username);
+  const items = await cartService.getCart(
+    req.session.username || "ido@gmail.com"
+  );
   res.render("cart", {
     items,
   });
@@ -59,9 +61,36 @@ async function removeProductFromCart(req, res) {
     res.json({ status: "error", code: err.code, error: err.message });
   }
 }
+
+async function updateProductQuantity(req, res) {
+  const { productId, quantity } = req.body;
+  const user = req.session.username || "ido@gmail.com";
+  try {
+    const update = await cartService.updateProductQuantity(
+      user,
+      productId,
+      quantity
+    );
+    console.log("update", update);
+    if (update) {
+      res.json({ status: "success", code: 200, item: update });
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.log("in controller catch");
+    res.json({
+      status: "error",
+      code: 400,
+      error: "Couldn't update product quantity",
+    });
+  }
+}
+
 module.exports = {
   getCart,
   clearCart,
   addProductToCart,
   removeProductFromCart,
+  updateProductQuantity,
 };
