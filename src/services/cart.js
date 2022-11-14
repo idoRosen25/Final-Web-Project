@@ -85,7 +85,6 @@ async function updateProductQuantity(email, productId, quantity) {
       .populate("products.productId");
     return update;
   } catch (error) {
-    console.log("in service catch");
     throw new Error();
   }
 }

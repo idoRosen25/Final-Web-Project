@@ -1,9 +1,7 @@
 const cartService = require("../services/cart");
 
 async function getCart(req, res) {
-  const items = await cartService.getCart(
-    req.session.username || "ido@gmail.com"
-  );
+  const items = await cartService.getCart(req.session.username);
   res.render("cart", {
     items,
   });
@@ -71,14 +69,13 @@ async function updateProductQuantity(req, res) {
       productId,
       quantity
     );
-    console.log("update", update);
+
     if (update) {
       res.json({ status: "success", code: 200, item: update });
     } else {
       throw new Error();
     }
   } catch (err) {
-    console.log("in controller catch");
     res.json({
       status: "error",
       code: 400,
