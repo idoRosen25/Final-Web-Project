@@ -60,7 +60,7 @@ async function register(req, res) {
 
 async function logout(req, res) {
   req.session.destroy();
-  res.redirect("/");
+  res.json({ code: 200, message: "User logged out" });
 }
 
 async function getUser(req, res) {
