@@ -3,7 +3,9 @@ $(() => {
     $("#overlay").toggleClass("d-none");
   });
 
-  $(`.general`)[0].className += " active";
+  if (window.location.href.includes("/shop") && $(`.general`)) {
+    $(`.general`)[0].className += " active";
+  }
 
   loadProductsForCategory("general");
 });
@@ -75,18 +77,18 @@ function loadProductsForCategory(category) {
 }
 
 $(".category-tab").map((index, ele) => {
-  console.log("ele", ele);
   ele.addEventListener("click", (e) => {
     const isActive = e.target.className.includes("active");
 
     if (isActive) return;
-
-    $(".active")[0].className = $(".active")[0]
-      .className.split(" ")
-      .filter((className) => className != "active")
-      .join(" ");
-    loadProductsForCategory(e.target.className.split(" ").at(-1));
-    e.target.className += " active";
+    if ($(".active")) {
+      $(".active")[0].className = $(".active")[0]
+        .className.split(" ")
+        .filter((className) => className != "active")
+        .join(" ");
+      loadProductsForCategory(e.target.className.split(" ").at(-1));
+      e.target.className += " active";
+    }
   });
 });
 
@@ -118,9 +120,7 @@ function editProduct(productId) {
   $.ajax({
     url: "/product/update/" + productId,
     type: "PUT",
-    success: (data) => {
-      console.log("200 from uipdate: ", data);
-    },
+    success: (data) => {},
   });
 }
 

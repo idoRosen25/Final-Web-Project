@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%- include('./partials/head')%>
-    <link rel="stylesheet" href="../../public/css/main.css" />
-  </head>
 
-  <body>
-    <%- include('./partials/overlay') %>
-    <div
-      class="container-fluid overflow-hidden text-center bg-secondary min-fit"
-    >
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <%- include('./partials/head')%>
+    <link rel="stylesheet" href="../../public/css/main.css" />
+</head>
+
+<body>
+  <%- include('./partials/overlay') %>
+    <div class="container-fluid overflow-hidden text-center bg-secondary min-fit">
       <div class="row">
-        <div class="col-12"><%- include('./partials/header'); %></div>
+        <div class="col-12">
+          <%- include('./partials/header'); %>
+        </div>
       </div>
       <div class="row gy-4 mt-1 mb-5">
         <div class="col-12 mb-2">
-          <h2><%=user ? `Username: ${user.email}` : 'Add User'%></h2>
+          <h2>
+            <%=user ? `Username: ${user.email}` : 'Add User' %>
+          </h2>
         </div>
         <div class="col-xl-4 col-lg-6 col-md-8 col-11 container-fluid">
           <form id="addUser" action="/user/register" method="post">
@@ -28,122 +31,85 @@
                   <h4>First Name</h4>
                 </div>
                 <div class="input-group">
-                  <input
-                    name="firstName"
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter name"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
-                    value="<%=user ?
-                  user.firstName:null %>"
-                  />
+                  <input name="firstName" type="text" class="form-control" placeholder="Enter name"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
+                  user.firstName:null %>" />
                 </div>
                 <div class="text-light mt-3">
                   <h4>Last Name</h4>
                 </div>
                 <div class="input-group">
-                  <input
-                    name="lastName"
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter name"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
-                    value="<%=user ?
-                  user.lastName:null %>"
-                  />
+                  <input name="lastName" type="text" class="form-control" placeholder="Enter name"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
+                  user.lastName:null %>" />
                 </div>
                 <!-- Email -->
               </div>
 
               <!-- password -->
               <% if(!user){%>
-              <div class="col-10 container-fluid">
-                <div class="mb-3 mt-3">
-                  <label
-                    for="exampleFormControlInput1"
-                    class="form-label text-light"
-                    ><h4>Email address</h4></label
-                  >
-                  <input
-                    name="email"
-                    type="email"
-                    class="form-control"
-                    placeholder="name@example.com"
-                    required
+                <div class="col-10 container-fluid">
+                  <div class="mb-3 mt-3">
+                    <label for="exampleFormControlInput1" class="form-label text-light">
+                      <h4>Email address</h4>
+                    </label>
+                    <input name="email" type="email" class="form-control" placeholder="name@example.com" required value="<%=user ?
+                      user.email:null %>" />
+                  </div>
+                </div>
+                <div class="col-10 container-fluid">
+                  <div class="text-light">
+                    <h4>Password</h4>
+                  </div>
+                  <div class="input">
+                    <input name="password" type="password" class="form-control" placeholder="Enter Password"
+                      aria-label="Recipient's username" aria-describedby="button-addon2" required />
+                    />
+                  </div>
+                </div>
+
+                <!-- male/female/other -->
+                <div class="col-10 container-fluid">
+                  <div class="text-light">
+                    <h4>Choose Gender</h4>
+                  </div>
+                  <select name="gender" class="form-select" type="gender" aria-label="Default select example" required
                     value="<%=user ?
-                      user.email:null %>"
-                  />
+                  user.gender:null %>">
+                    <option selected>Open this to select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
-              </div>
-              <div class="col-10 container-fluid">
-                <div class="text-light">
-                  <h4>Password</h4>
-                </div>
-                <div class="input">
-                  <input
-                    name="password"
-                    type="password"
-                    class="form-control"
-                    placeholder="Enter Password"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
-                  />
-                  />
-                </div>
-              </div>
+                <%}%>
 
-              <!-- male/female/other -->
-              <div class="col-10 container-fluid">
-                <div class="text-light">
-                  <h4>Choose Gender</h4>
-                </div>
-                <select
-                  name="gender"
-                  class="form-select"
-                  type="gender"
-                  aria-label="Default select example"
-                  required
-                  value="<%=user ?
-                  user.gender:null %>"
-                >
-                  <option selected>Open this to select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <%}%>
+                  <div class="col-10 container-fluid">
+                    <div class="text-light mt-3">
+                      <h4>Age</h4>
+                    </div>
+                    <div class="input-group">
+                      <input name="age" type="number" min="0" class="form-control" placeholder="Enter Age"
+                        aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
+                  user.age:null %>" />
+                    </div>
+                  </div>
 
-              <div class="col-10 container-fluid">
-                <div class="text-light mt-3">
-                  <h4>Age</h4>
-                </div>
-                <div class="input-group">
-                  <input
-                    name="age"
-                    type="number"
-                    min="0"
-                    class="form-control"
-                    placeholder="Enter Age"
-                    aria-label="Recipient's username"
-                    aria-describedby="button-addon2"
-                    required
-                    value="<%=user ?
-                  user.age:null %>"
-                  />
-                </div>
-              </div>
+                  <div id="adminCheckbox" class="col-4 container-fluid d-none">
+                    <div class="text-light mt-3">
+                      <h4>Admin</h4>
+                    </div>
+                    <div class="input-group">
+                      <input type="checkbox" class="m-auto" name="isAdmin">
+                    </div>
+                  </div>
 
-              <div>
-                <button type="submit" class="btn btn-primary mt-3">
-                  <%=user ? "Update" : "Sign In"%>
-                </button>
-              </div>
+
+                  <div>
+                    <button type="submit" class="btn btn-primary mt-3">
+                      <%=user ? "Update" : "Sign In" %>
+                    </button>
+                  </div>
             </div>
           </form>
         </div>
@@ -152,6 +118,12 @@
 
     <%- include('./partials/footer'); %>
 
-    <script src="../../public/js/products.js"></script>
-  </body>
+      <script>
+        $(() => {
+          const user = JSON.parse(localStorage.getItem('user'));
+          user && user.isAdmin && $('#adminCheckbox').toggleClass('d-none');
+        })
+      </script>
+</body>
+
 </html>

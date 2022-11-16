@@ -83,7 +83,6 @@ async function updateProduct(req, res) {
   const { productId } = req.params;
   const { title, category, price, image } = req.body;
 
-  console.log("params for update product");
   console.log({ productId, title, category, price, image });
   try {
     const item = await productService.updateProduct({

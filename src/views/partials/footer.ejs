@@ -86,7 +86,7 @@
               </p>
               <%}else{%>
                 <p>
-                  <a href="/user" class="text-white">Login</a>
+                  <a href="/" class="text-white" data-bs-toggle="modal" data-bs-target="#userModal">Login</a>
                 </p>
                 <p>
                   <a href="/user/add-user" class="text-white">Register</a>
@@ -170,13 +170,14 @@
 
         var form = $(this);
         var actionUrl = form.attr("action");
+        var action = form.attr("method");
 
         var overlay = $("#overlay");
         $("#overlayText").text("Loading...");
         overlay.toggleClass("d-none");
         setTimeout(() => {
           $.ajax({
-            type: "POST",
+            type: action,
             url: actionUrl,
             data: form.serialize(),
             success: (data) => {

@@ -151,8 +151,6 @@ async function getTopCategories() {
 
 async function getTopUsers() {
   try {
-    console.log("in get top users service");
-
     const stats = await orderModel
       .aggregate([
         {
@@ -164,7 +162,6 @@ async function getTopUsers() {
         { $sort: { count: -1 } },
       ])
       .limit(5);
-    console.log("stats for top users:", stats);
     return {
       data: stats
         .map((user) => ({

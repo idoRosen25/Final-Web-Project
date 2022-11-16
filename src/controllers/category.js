@@ -3,7 +3,6 @@ const categoryService = require("../services/category");
 async function getCategories(req, res) {
   const categories = await categoryService.getCategories();
 
-  console.log("all categories for shop page: ", categories);
   if (categories) {
     res.json({ status: "success", code: 200, categories });
   } else {

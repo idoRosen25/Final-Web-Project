@@ -4,8 +4,6 @@ function toggleTooltip() {
 }
 
 $(() => {
-  console.log("all user logout links: ", $(".logoutUser"));
-
   if ($(".logoutUser").length > 0) {
     $(".logoutUser").click((e) => {
       e.preventDefault();
@@ -14,7 +12,7 @@ $(() => {
         type: "GET",
         success: (data) => {
           localStorage.clear();
-          location.reload();
+          window.location.href = "/";
         },
       });
     });
