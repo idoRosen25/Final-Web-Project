@@ -8,9 +8,9 @@ router.get("/add/:id", isAdmin, productController.getProductById);
 router.get("/:category", productController.getProductsByCategory);
 
 router.post("/add", isAdmin, productController.addProduct);
-//TODO!!!
 
-// remove product
-// update product
+router.put("/update/:productId", isAdmin, productController.updateProduct);
+
+router.delete("/remove/:productId", isAdmin, productController.removeProduct);
 
 module.exports = router;

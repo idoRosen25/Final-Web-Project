@@ -37,4 +37,47 @@ async function addProduct({ title, category = "general", price, image = "" }) {
 async function getProductById(id) {
   return await productModel.findById(ObjectId(id));
 }
-module.exports = { getProductsByCategory, addProduct, getProductById };
+
+async function updateProduct({ productId, title, category, price, image }) {
+  try {
+    const item = await productModel.findOneAndUpdate(
+      { _id: ObjectId(productId) },
+      {
+        $set: {
+          title: title.toLowerCase(),
+          category: category.toLowerCase(),
+          price: parseFloat(price),
+          image,
+        },
+      }
+    );
+
+    if (item) {
+      return item;
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
+async function removeProduct(productId) {
+  try {
+    const remove = await productModel.findOneAndDelete({
+      _id: ObjectId(productId),
+    });
+
+    return remove;
+  } catch (error) {
+    throw new Error();
+  }
+}
+
+module.exports = {
+  getProductsByCategory,
+  addProduct,
+  getProductById,
+  updateProduct,
+  removeProduct,
+};
