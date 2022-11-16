@@ -31,6 +31,14 @@
 .nav-link {
   cursor: pointer !important;
 }
+
+.category-tab {
+  color: white;
+}
+.category-tab.active {
+  color: black;
+}
+
 .map-min-ratio {
   min-height: 60vh;
 }

@@ -1,13 +1,8 @@
 const categoryModel = require("../models/category");
 const { ObjectId } = require("mongodb");
-const { getProductsByCategory } = require("./product");
 
-async function getCategories(title) {
-  if (title) {
-    return await getProductsByCategory({ category: title });
-  } else {
-    return await categoryModel.find({});
-  }
+async function getCategories() {
+  return await categoryModel.find({}).sort({ title: -1 });
 }
 
 async function addCategory({ title, image = "" }) {

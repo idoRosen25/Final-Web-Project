@@ -1,12 +1,13 @@
 const categoryService = require("../services/category");
 
 async function getCategories(req, res) {
-  const title = req.body.title || req.params.title;
-  const items = await categoryService.getCategories(title);
-  if (items) {
-    res.render("shop", { items });
+  const categories = await categoryService.getCategories();
+
+  console.log("all categories for shop page: ", categories);
+  if (categories) {
+    res.render("shop", { categories });
   } else {
-    res.json({ code: 400, items });
+    res.redirect("/error?code=400");
   }
 }
 

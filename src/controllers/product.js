@@ -2,9 +2,17 @@ const productService = require("../services/product");
 const categoryService = require("../services/category");
 
 async function getProductsByCategory(req, res) {
-  const items = await productService.getProductsByCategory(req.body);
+  const { category } = req.params;
+
+  const items = await productService.getProductsByCategory(category);
   if (items) {
-    res.json({ status: "success", code: 200, items });
+    res.json({
+      status: "success",
+      code: 200,
+      items,
+      loggedIn: !!req.session.username,
+      isAdmin: !!req.session.isAdmin,
+    });
   } else {
     res.json({
       status: "error",
