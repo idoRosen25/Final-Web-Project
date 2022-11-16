@@ -5,7 +5,7 @@ async function getCategories(req, res) {
 
   console.log("all categories for shop page: ", categories);
   if (categories) {
-    res.render("shop", { categories });
+    res.json({ status: "success", code: 200, categories });
   } else {
     res.redirect("/error?code=400");
   }

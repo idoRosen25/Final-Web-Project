@@ -1,6 +1,20 @@
 const productService = require("../services/product");
 const categoryService = require("../services/category");
 
+async function allProductsPage(req, res) {
+  const categories = await categoryService.getCategories();
+
+  if (categories) {
+    res.render("shop", {
+      categories,
+      loggedIn: !!req.session.username,
+      isAdmin: !!req.session.isAdmin,
+    });
+  } else {
+    res.redirect("/error?code=400");
+  }
+}
+
 async function getProductsByCategory(req, res) {
   const { category } = req.params;
 
@@ -129,4 +143,5 @@ module.exports = {
   getProductById,
   updateProduct,
   removeProduct,
+  allProductsPage,
 };
