@@ -26,42 +26,16 @@
       <div class="m-auto col-lg-10 col-md-11 col-12 min-h-40">
         <div class="p-3 bg-dark text-dark">
           <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a id="categoryId" class="nav-link category-tab active">Active</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link category-tab">Link</a>
-            </li>
-          </ul>
-          <div class="row pt-2">
-            <% for( let i=0; i < items.length; i++ ) { %>
-              <div class="col-lg-3 col-md-4 col-sm-6 my-3">
-                <div class="card">
-                  <div class="card-body">
-                    <img src="<%=items[i].image%>" class="card-img-top" alt="..." height="300px" />
-                    <h5 class="card-title capitalize mt-3">
-                      <%= items[i].title %>
-                    </h5>
-                    <p class="card-text">Price: <%= items[i].price%>$</p>
-                    <% if(username){%>
-                      <div>
-                        <button class="btn btn-danger pt-1 pb-2" onclick="addItemToWishlist('<%=items[i]._id%>')">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="white" stroke-width="2" class="feather feather-heart">
-                            <path
-                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                            </path>
-                          </svg>
-                        </button>
-                        <button class="btn btn-success" onclick="addItemToCart('<%= items[i]._id%>')">
-                          Add To Cart
-                        </button>
-                      </div>
-                      <%}%>
-                  </div>
-                </div>
-              </div>
+            <% for( let i=0; i < categories.length; i++ ) { %>
+              <li id="<%=categories[i]._id %>" class="nav-item">
+                <a id="<%=categories[i]._id%>" class="nav-link category-tab capitalize <%=categories[i].title%>">
+                  <%=categories[i].title%>
+                </a>
+              </li>
               <% } %>
+          </ul>
+          <div id="productContainer" class="row pt-2">
+
           </div>
         </div>
       </div>
@@ -74,5 +48,3 @@
 </body>
 
 </html>
-
-<!-- <input class="form-control" type="text" value="Readonly input here..." aria-label="readonly input example" readonly> -->

@@ -3,6 +3,8 @@ const router = express.Router();
 const { isAdmin } = require("../controllers/user");
 const productController = require("../controllers/product");
 
+router.get("/shop", productController.allProductsPage);
+
 router.get("/add/:id", isAdmin, productController.getProductById);
 
 router.get("/:category", productController.getProductsByCategory);
