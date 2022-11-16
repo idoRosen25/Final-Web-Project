@@ -3,6 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+a {
+  cursor: pointer;
+}
+
+.link {
+  cursor: pointer;
+}
 
 #errorCode {
   font-size: 8rem;
@@ -68,4 +75,12 @@
 }
 .toast-link:hover {
   text-decoration-line: underline;
+}
+
+.shopNowLink {
+  border: 2px solid rgb(81, 75, 75);
+  border-radius: 15px;
+  font-size: 5rem;
+  min-width: fit-content;
+  padding: 0.5rem 2rem;
 }

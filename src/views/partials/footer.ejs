@@ -49,14 +49,18 @@
             <!-- Links -->
             <h6 class="text-uppercase fw-bold">Products</h6>
             <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+            <div id="adminLink" class="d-none">
+
+              <p>
+                <a href="/category/add/new" class="text-white">Add Category</a>
+              </p>
+              <p>
+                <a href="/product/add/new" class="text-white">Add Product</a>
+              </p>
+
+            </div>
             <p>
-              <a href="/category/add/new" class="text-white">Add Category</a>
-            </p>
-            <p>
-              <a href="/product/add/new" class="text-white">Add Product</a>
-            </p>
-            <p>
-              <a href="/product/general" class="text-white">View Products</a>
+              <a href="/product/shop" class="text-white">View Products</a>
             </p>
           </div>
           <!-- Grid column -->
@@ -66,19 +70,29 @@
             <!-- Links -->
             <h6 class="text-uppercase fw-bold">Account</h6>
             <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
-            <p>
-              <a href="/user" class="text-white">My Account</a>
-            </p>
-            <!-- orders, add User, statistics -->
-            <p>
-              <a href="/orders" class="text-white">Orders</a>
-            </p>
-            <p>
-              <a href="/user/add-user" class="text-white">Add User</a>
-            </p>
-            <p>
-              <a href="/stats" class="text-white">Statistics</a>
-            </p>
+            <%if(username){%>
+              <p>
+                <a href="/user" class="text-white">My Account</a>
+              </p>
+              <!-- orders, add User, statistics -->
+              <p>
+                <a href="/orders" class="text-white">Orders</a>
+              </p>
+              <p>
+                <a href="/user/add-user" class="text-white">Add User</a>
+              </p>
+              <p>
+                <span class="text-white">Statistics</span>
+              </p>
+              <%}else{%>
+                <p>
+                  <a href="/user" class="text-white">Login</a>
+                </p>
+                <p>
+                  <a href="/user/add-user" class="text-white">Register</a>
+                </p>
+
+                <%}%>
           </div>
           <!-- Grid column -->
 
@@ -146,6 +160,9 @@
       );
     });
 
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    user && user.isAdmin && $('#adminLink').removeClass('d-none')
 
     if ($("#productForm")) {
       $("#productForm").submit(function (e) {
@@ -177,5 +194,6 @@
       });
     }
   });
+
 
 </script>
