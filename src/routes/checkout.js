@@ -10,4 +10,5 @@ router.post(
   isLoggedIn,
   checkoutController.createPaymentIntent
 );
+
 module.exports = router;

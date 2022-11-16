@@ -56,8 +56,69 @@ async function getProductById(req, res) {
     }
   }
 }
+
+async function updateProduct(req, res) {
+  const { productId } = req.params;
+  const { title, category, price, image } = req.body;
+
+  console.log("params for update product");
+  console.log({ productId, title, category, price, image });
+  try {
+    const item = await productService.updateProduct({
+      productId,
+      title,
+      category,
+      price,
+      image,
+    });
+    if (item) {
+      res.json({
+        status: "success",
+        code: 200,
+        message: "Product updated successfully",
+        item,
+      });
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    res.json({
+      status: "error",
+      code: 400,
+      message: "Error updating product",
+    });
+  }
+}
+
+async function removeProduct(req, res) {
+  const productId = req.params.productId;
+
+  try {
+    if (!productId) throw new Error();
+    const remove = await productService.removeProduct(productId);
+
+    if (remove) {
+      return res.json({
+        status: "success",
+        code: 200,
+        message: "Product removed successfully",
+      });
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    res.json({
+      status: "error",
+      code: "400",
+      message: "Error Removing Product",
+    });
+  }
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
   getProductById,
+  updateProduct,
+  removeProduct,
 };

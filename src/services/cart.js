@@ -74,9 +74,25 @@ async function removeProductFromCart(email, { itemId }) {
   }
 }
 
+async function updateProductQuantity(email, productId, quantity) {
+  try {
+    const update = await cartModel
+      .findOneAndUpdate(
+        { email, "products.productId": ObjectId(productId) },
+        { $set: { "products.$.quantity": quantity } },
+        { new: true }
+      )
+      .populate("products.productId");
+    return update;
+  } catch (error) {
+    throw new Error();
+  }
+}
+
 module.exports = {
   getCart,
   clearCart,
   addProductToCart,
   removeProductFromCart,
+  updateProductQuantity,
 };
