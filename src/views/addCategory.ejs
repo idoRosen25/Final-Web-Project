@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('./partials/head')%>
+        <link rel="stylesheet" href="../../public/css/main.css" />
+</head>
+
+<body>
+    <%- include('./partials/overlay') %>
+        <div class="container-fluid overflow-hidden text-center bg-secondary min-fit">
+            <div class="row">
+                <div class="col-12">
+                    <%- include('./partials/header'); %>
+                </div>
+            </div>
+            <div class="row gy-4 mt-1 mb-5">
+                <div class="col-12 mb-2">
+                    <h2 class="capitalize">
+                        <%=category ? `${category.title}` : 'add Category' %>
+                    </h2>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-11 container-fluid">
+                    <form id="addCategory" action="<%=category ? `/category/update/${category._id}`:'/category/add'%>"
+                        method="<%=category ? 'put':'post'%>">
+                        <div class="p-3 card bg-dark text-dark flex-grow">
+                            <div class="text-light my-3">
+                                <h4>Category Name</h4>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input name="title" type="text" class="form-control capitalize" placeholder="Enter name"
+                                    requried value="<%=category ? category.title:null%>" />
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary mt-3">
+                                <%=category ? "Update" : "Add" %> Category
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/footer'); %>
+
+</body>
+
+</html>

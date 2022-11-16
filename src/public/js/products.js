@@ -130,6 +130,7 @@ function removeProduct(productId) {
     type: "DELETE",
     success: (data) => {
       console.log("200 from delete: ", data);
+      window.location.href = "/";
     },
   });
 }

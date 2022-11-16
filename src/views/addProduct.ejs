@@ -87,6 +87,12 @@
                 <button type="submit" class="btn btn-primary">
                   <%=item ? 'Update' :'Add' %> Product
                 </button>
+
+                <%if(item){%>
+                  <button id="removeBtn" class="btn btn-danger d-none" onclick="removeProduct('<%=item._id%>')">
+                    Remove
+                  </button>
+                  <%}%>
               </div>
             </div>
           </form>
@@ -97,6 +103,17 @@
     <%- include('./partials/footer'); %>
 
       <script src="../../public/js/products.js"></script>
+
+      <script>
+        $(() => {
+          const user = JSON.parse(localStorage.getItem('user'));
+
+          if (user && user.isAdmin) {
+            $('#removeBtn').removeClass('d-none');
+          }
+
+        })
+      </script>
 </body>
 
 </html>

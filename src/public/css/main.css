@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 a {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .link {
