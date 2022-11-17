@@ -50,7 +50,7 @@ async function addProduct(req, res) {
       throw { code: 400, message: "Couldn't add product" };
     }
   } catch (error) {
-    res.json({ status: "error", code: error.code, error: error.message });
+    return res.status(400).json(error);
   }
 }
 

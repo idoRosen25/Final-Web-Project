@@ -37,12 +37,19 @@
                     <select name="category" class="form-select" id="inputGroupSelect04"
                       aria-label="Example select with button addon">
                       <% for( let index=0; index < categories.length; index++ ) { %>
-                        <option class="capitalize" value="<%= categories[index].title%>" <%
-                          if(item){if(categories[index].title===item.category) 'selected' }else{ if(index===0
-                          ) 'selected' }%>>
-                          <%= categories[index].title.charAt(0).toUpperCase()+categories[index].title.slice(1)%>
-                        </option>
-                        <% } %>
+                        <%if(item && item.category==categories[index].title){%>
+                          <option class="capitalize" value="<%= categories[index].title%>" selected>
+
+                            <%}else if(!item && index==0){%>
+                          <option class="capitalize" value="<%= categories[index].title%>" selected>
+
+                            <% }else{ %>
+                          <option class="capitalize" value="<%= categories[index].title%>">
+
+                            <%}%>
+                              <%= categories[index].title.charAt(0).toUpperCase()+categories[index].title.slice(1)%>
+                          </option>
+                          <%}%>
                     </select>
                   </div>
                 </div>
@@ -106,6 +113,7 @@
 
       <script>
         $(() => {
+
           const user = JSON.parse(localStorage.getItem('user'));
 
           if (user && user.isAdmin) {

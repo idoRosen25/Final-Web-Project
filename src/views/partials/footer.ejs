@@ -155,7 +155,7 @@
           </button>
         </div>
         <div class="toast-body text-start">
-          <a class="capitalize toast-link" href='/category/${product.category}' >${product.title}</a>
+          <a class="capitalize toast-link" href='/product/add/${product._id}' >${product.title}</a>
         </div>
       </div>`
       );
@@ -182,14 +182,15 @@
             url: actionUrl,
             data: form.serialize(),
             success: (data) => {
+              console.log('data: ', data)
               if (data.code === 200) {
                 socket.emit('new product', data.item);
                 $("#overlayText").text("");
                 overlay.toggleClass("d-none");
               }
             },
-            error: (error) => {
-              $("#overlayText").text(error.error);
+            error: async (error) => {
+              $("#overlayText").text(error.responseJSON.message);
             },
           });
         }, 1000);

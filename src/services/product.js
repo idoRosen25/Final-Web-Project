@@ -27,10 +27,10 @@ async function addProduct({ title, category = "general", price, image = "" }) {
         image,
       }).save();
     } catch (error) {
-      return error;
+      throw new Error();
     }
   } else {
-    return { code: 400, message: "Product already exists" };
+    throw { code: 400, message: "Product already exists" };
   }
 }
 
