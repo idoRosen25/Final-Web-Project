@@ -12,7 +12,7 @@ async function getOrdersById(req, res) {
     req.session.username,
     req.params.id
   );
-  res.render("ordersView", {
+  res.render("orderView", {
     order,
   });
 }

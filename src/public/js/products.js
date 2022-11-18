@@ -15,9 +15,11 @@ function loadProductsForCategory(category) {
     url: "/product/" + category,
     type: "GET",
     success: (data) => {
-      if (data.items.length) {
-        const productContainer = $("#productContainer");
-        productContainer.html("");
+      console.log("items array: ", data.items);
+      const productContainer = $("#productContainer");
+      productContainer.html("");
+      console.log("in load category success: ", data.items);
+      if (data.items?.length) {
         for (let i = 0; i < data.items.length; i++) {
           productContainer.append(
             `<div id="${
@@ -42,7 +44,7 @@ function loadProductsForCategory(category) {
 
                   </svg>
                 </a>
-                <button class="btn btn-danger" onclick="removeProduct(${data.items[i]._id})">
+                <button class="btn btn-danger" onclick="removeProduct('${data.items[i]._id}')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-trash3" viewBox="0 0 16 16">
                 <path
@@ -55,7 +57,7 @@ function loadProductsForCategory(category) {
                 ${
                   data.loggedIn
                     ? ` <div class="my-2">
-                <button class="btn btn-danger pt-1 pb-2" onclick="addItemToWishlist(${data.items[i]._id})">
+                <button class="btn btn-danger pt-1 pb-2" onclick="addItemToWishlist('${data.items[i]._id}')">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="white" stroke-width="2" class="feather feather-heart">
                     <path
@@ -63,7 +65,7 @@ function loadProductsForCategory(category) {
                     </path>
                   </svg>
                 </button>
-                <button class="btn btn-success" onclick="addItemToCart(${data.items[i]._id})">
+                <button class="btn btn-success" onclick="addItemToCart('${data.items[i]._id}')">
                   Add To Cart
                 </button>
               </div>`
@@ -74,6 +76,10 @@ function loadProductsForCategory(category) {
           </div>`
           );
         }
+      } else {
+        productContainer.html(
+          "<h4 class='text-light'>No Items Found In Category.</h4>"
+        );
       }
     },
   });
@@ -96,6 +102,7 @@ $(".category-tab").map((index, ele) => {
 });
 
 function addItemToCart(itemId) {
+  console.log("add to cart: ", itemId);
   $.ajax({
     url: "/cart/add",
     type: "POST",
@@ -105,17 +112,24 @@ function addItemToCart(itemId) {
         window.location.href = "/";
       }
     },
-    error: function (error) {},
+    error: function (error) {
+      console.log("error add to wishlist: ", data);
+    },
   });
 }
 
 function addItemToWishlist(itemId) {
+  console.log("id to add: ", itemId);
   $.ajax({
     url: "/wishlist/add",
     type: "POST",
     data: { itemId },
-    success: function (data) {},
-    error: function (error) {},
+    success: function (data) {
+      console.log("added to wishlist: ", data);
+    },
+    error: function (error) {
+      console.log("error add to wishlist: ", error.responseJSON.message);
+    },
   });
 }
 
@@ -133,7 +147,7 @@ function removeProduct(productId) {
     type: "DELETE",
     success: (data) => {
       console.log("200 from delete: ", data);
-      window.location.href = "/";
+      loadProductsForCategory(data.item.category);
     },
   });
 }

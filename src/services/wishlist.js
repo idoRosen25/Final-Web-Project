@@ -8,7 +8,9 @@ async function getWishlist(email) {
     .findOne({ user: email })
     .populate("itemIds.item");
 
-  return wishlist.itemIds;
+  console.log("wishlist", wishlist);
+  if (wishlist) return wishlist.itemIds;
+  else return [];
 }
 
 async function addItemToList(email, itemId) {

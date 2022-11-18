@@ -16,12 +16,13 @@ async function addItemToList(req, res) {
     req.session.username,
     itemId
   );
-  if (addItem) {
-    res.json({ code: 200, success: true, message: "Item added to wishlist" });
+  if (false) {
+    res
+      .status(200)
+      .json({ status: "success", message: "Item added to wishlist" });
   } else {
-    res.json({
-      code: 400,
-      success: false,
+    res.status(400).json({
+      status: "error",
       message: "Item not added to wishlist",
     });
   }
