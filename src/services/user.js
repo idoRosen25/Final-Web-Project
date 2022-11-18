@@ -62,32 +62,25 @@ async function getUser(email) {
   return userModel.findOne({ email });
 }
 
-async function updateUser(
-  email,
-  password,
-  firstName,
-  lastName,
-  gender,
-  age,
-  isRoleAdmin
-) {
+async function updateUser(email, firstName, lastName, age, isRoleAdmin) {
   const currentUser = await userModel.findOne({ email });
-  if (currentUser) {
-    const hashPass = password
-      ? await hashService.genHash(password)
-      : currentUser.password;
-    const user = await userModel.updateOne(
-      { email: currentUser.email },
-      {
-        password: hashPass,
-        firstName: firstName || currentUser.firstName,
-        lastName: lastName || currentUser.lastName,
-        gender: gender || currentUser.gender,
-        age: age ? parseInt(age) : currentUser.age,
-        isRoleAdmin,
+  try {
+    if (currentUser) {
+      const user = await userModel.updateOne(
+        { email: currentUser.email },
+        {
+          firstName: firstName || currentUser.firstName,
+          lastName: lastName || currentUser.lastName,
+          age: age ? parseInt(age) : currentUser.age,
+          isRoleAdmin,
+        }
+      );
+      if (user.acknowledged) {
+        return await userModel.findOne({ email });
       }
-    );
-    return user;
+    }
+  } catch (error) {
+    return null;
   }
   return null;
 }

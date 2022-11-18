@@ -24,7 +24,7 @@
           </h2>
         </div>
         <div class="col-xl-4 col-lg-6 col-md-8 col-11 container-fluid">
-          <form id="addUser" action="/user/register" method="post">
+          <form id="addUser" action="<%=user ? '/user':'/user/register' %>" method="<%=user ? 'put':'post' %>">
             <div class="p-3 py-4 card bg-dark text-dark flex-grow rounded">
               <div class="col-10 container-fluid">
                 <div class="form-floating mb-3 text-start">
@@ -85,10 +85,13 @@
                   <div id="adminCheckbox" class="col-10 container-fluid d-none">
                     <div class="col-4 mb-3 text-start text-light">
                       <label for="isAdmin" class="fs-4 mr-4">Admin</label>
-                      <input type="checkbox" class="m-auto" name="isAdmin">
+                      <input id="isAdminInput" type="checkbox" class="m-auto" name="isAdmin">
                     </div>
                   </div>
 
+                  <div id="update-success" class="text-light fs-5 d-none">
+                    User Updated Successfully
+                  </div>
 
                   <div>
                     <button type="submit" class="btn btn-primary mt-3">

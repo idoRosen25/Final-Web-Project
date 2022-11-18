@@ -9,6 +9,10 @@ $(() => {
       }
     }
   } catch (error) {}
+
+  $("#isAdminInput")[0].checked =
+    JSON.parse(localStorage.getItem("user"))?.isAdmin &&
+    !window.location.href.includes("add-user");
 });
 
 $("#loginForm").submit(function (e) {
@@ -46,24 +50,31 @@ $("#loginForm").submit(function (e) {
 
 $("#addUser").submit(function (e) {
   e.preventDefault();
-
+  $('button[type="submit"]').prop("disabled", true);
   var form = $(this);
   var actionUrl = form.attr("action");
-
-  console.log(form.serialize());
+  var method = form.attr("method");
+  console.log(method);
   $.ajax({
-    type: "POST",
+    type: method,
     url: actionUrl,
     data: form.serialize(),
     success: (data) => {
-      if (data.status == "success") {
-        location.replace("/");
+      console.log("data: ", data);
+      if (method.toLowerCase() == "put") {
+        $("#update-success").toggleClass("d-none");
+
+        setTimeout(() => {
+          $("#update-success").toggleClass("d-none");
+        }, 1500);
+      } else {
+        location.href = "/";
       }
+      $('button[type="submit"]').prop("disabled", false);
     },
     error: (error) => {
-      $("#loginError").show();
-      signinBtn.value = "Sign In";
-      signinBtn.disabled = false;
+      console.log("couldnt send /user req type: " + method);
+      $('button[type="submit"]').prop("disabled", false);
     },
   });
 });

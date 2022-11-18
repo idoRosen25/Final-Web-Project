@@ -100,7 +100,6 @@ $(".category-tab").map((index, ele) => {
 });
 
 function addItemToCart(itemId) {
-  console.log("add to cart: ", itemId);
   $.ajax({
     url: "/cart/add",
     type: "POST",
@@ -146,13 +145,4 @@ function removeProduct(productId) {
       loadProductsForCategory(data.item.category);
     },
   });
-}
-
-function resetSorting() {
-  console.log("all selected selects: ", $(".form-select"));
-  $(".form-select").map((index, element) => {
-    console.log("select elemt: ", index, element, element.defaultSelected);
-    return element.defaultSelected;
-  });
-  loadProductsForCategory($(".active")[0].className.split(" ").at(-2));
 }
