@@ -23,7 +23,7 @@ async function createPaymentIntent(email) {
     return { code: 400 };
   }
   return await stripe.paymentIntents.create({
-    amount: amount * 10,
+    amount: amount * 100,
     currency: "usd",
   });
 }
