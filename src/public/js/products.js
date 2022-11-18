@@ -147,3 +147,12 @@ function removeProduct(productId) {
     },
   });
 }
+
+function resetSorting() {
+  console.log("all selected selects: ", $(".form-select"));
+  $(".form-select").map((index, element) => {
+    console.log("select elemt: ", index, element, element.defaultSelected);
+    return element.defaultSelected;
+  });
+  loadProductsForCategory($(".active")[0].className.split(" ").at(-2));
+}

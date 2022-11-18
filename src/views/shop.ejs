@@ -25,18 +25,6 @@
 
       <div class="m-auto col-lg-10 col-md-11 col-12 min-h-40">
         <div class="p-3 bg-dark text-dark rounded">
-          <div class="rounded text-light">
-            <ul style="list-style:none; display: flex;justify-content: space-around;">
-              <li>
-                <label for="priceRange" class="form-label">Max Price</label>
-                <input type="range" class="form-range" min="0" max="1000" step="50" id="priceRange"
-                  data-slider-id="rangeSlider" data-slider-min="0" data-slider-max="12" data-slider-step="1"
-                  data-slider-value="14">
-              </li>
-              <li>Name</li>
-              <li>Reset</li>
-            </ul>
-          </div>
           <ul class="nav nav-tabs">
             <% for( let i=0; i < categories.length; i++ ) { %>
               <li id="<%=categories[i]._id %>" class="nav-item">
