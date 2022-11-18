@@ -111,7 +111,7 @@
     </section>
     <!-- Section: Links  -->
 
-    <div id="toastAlert" class="text-end justify-end" style="width:100vw;min-height:20vh;position:absolute;bottom:-2%;">
+    <div id="toastAlert" class="text-end justify-end" style="width:100vw;position:absolute;bottom:-2%;">
 
     </div>
 
@@ -133,8 +133,9 @@
 
 <script>
 
-  function removeToast(e) {
-    $('.toast')[0].remove()
+  function removeToast(e, toastId) {
+    console.log('toast removed: ', { e, toastId });
+    e.remove()
   }
   $(() => {
     var socket = io();
@@ -144,13 +145,15 @@
     });
 
     socket.on("new product", (product) => {
+      const currentToasts = $('.toast');
+      console.log('current toasts: ', currentToasts, currentToasts.length)
       $("#toastAlert").append(
-        `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-        style="display:block;position:relative;border:1px solid green">
+        `<div id='toast_${currentToasts.length + 1}' class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+        style="display:block;position:relative;">
         <div class="toast-header py-3">
           <strong class="mr-auto">New Product Added</strong>
           <button type="button" class="btn close my-2" data-dismiss="toast" aria-label="Close"
-            style="position:absolute;right:5%" onclick="removeToast(this)">
+            style="position:absolute;right:5%" onclick="removeToast(toast_${currentToasts.length + 1})">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

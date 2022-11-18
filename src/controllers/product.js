@@ -118,7 +118,6 @@ async function removeProduct(req, res) {
     if (!productId) throw new Error();
     const remove = await productService.removeProduct(productId);
 
-    console.log("after reove in control: ", remove);
     if (remove) {
       return res.json({
         status: "success",

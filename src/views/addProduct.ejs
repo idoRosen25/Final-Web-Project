@@ -28,64 +28,54 @@
           <form id="productForm" action='<%=item ? "/product/update":"/product/add"%>'
             method='<%=item ? "put":"post"%>'>
             <div class="p-3 card bg-dark text-dark flex-grow rounded">
-              <div class="col-10 container-fluid">
-                <div>
-                  <div class="text-light">
-                    <h4>Category</h4>
-                  </div>
-                  <div class="input-group">
-                    <select name="category" class="form-select" id="inputGroupSelect04"
-                      aria-label="Example select with button addon">
-                      <% for( let index=0; index < categories.length; index++ ) { %>
-                        <%if(item && item.category==categories[index].title){%>
-                          <option class="capitalize" value="<%= categories[index].title%>" selected>
+              <div class="col-10 container-fluid text-start">
+                <div class="form-floating my-4">
+                  <select name="category" class="form-select" id="selectCategoryGroup"
+                    aria-label="Example select with button addon">
+                    <% for( let index=0; index < categories.length; index++ ) { %>
+                      <%if(item && item.category==categories[index].title){%>
+                        <option class="capitalize" value="<%= categories[index].title%>" selected>
 
-                            <%}else if(!item && index==0){%>
-                          <option class="capitalize" value="<%= categories[index].title%>" selected>
+                          <%}else if(!item && index==0){%>
+                        <option class="capitalize" value="<%= categories[index].title%>" selected>
 
-                            <% }else{ %>
-                          <option class="capitalize" value="<%= categories[index].title%>">
+                          <% }else{ %>
+                        <option class="capitalize" value="<%= categories[index].title%>">
 
-                            <%}%>
-                              <%= categories[index].title.charAt(0).toUpperCase()+categories[index].title.slice(1)%>
-                          </option>
                           <%}%>
-                    </select>
-                  </div>
+                            <%= categories[index].title.charAt(0).toUpperCase()+categories[index].title.slice(1)%>
+                        </option>
+                        <%}%>
+                  </select>
+                  <label for="selectCategoryGroup">Category</label>
                 </div>
               </div>
 
-              <div class="col-10 container-fluid">
-                <div class="text-light mt-3">
-                  <h4>Name</h4>
-                </div>
-                <div class="input-group">
+              <div class="col-10 container-fluid text-start">
+                <div class="form-floating mb-4">
                   <input name="title" type="text" class="form-control" placeholder="Enter name"
                     aria-label="Recipient's username" aria-describedby="button-addon2" required
                     value="<%=item? item.title : null%>" />
+                  <label>Name</label>
                 </div>
-                <!-- price -->
               </div>
-              <div class="col-10 container-fluid">
-                <div class="text-light mt-3">
-                  <h4>Price</h4>
-                </div>
-                <div class="input-group">
+
+              <div class="col-10 container-fluid text-start">
+                <div class="form-floating">
                   <input name="price" type="number" min="0" class="form-control" placeholder="Enter price"
                     aria-label="Recipient's username" aria-describedby="button-addon2" required
                     value="<%=item? item.price : null%>" />
+                  <label for="Price">Price</label>
                   />
                 </div>
               </div>
 
-              <div class="col-10 container-fluid">
-                <div class="text-light mt-3">
-                  <h4>Image url</h4>
-                </div>
-                <div class="input-group mb-3">
+              <div class="col-10 container-fluid text-start">
+                <div class="form-floating">
                   <input name="image" type="text" class="form-control" placeholder="Enter url"
                     aria-label="Recipient's username" aria-describedby="button-addon2" required
                     value="<%=item? item.image : null%>" />
+                  <label for="Image URL">Image URL</label>
                   />
                 </div>
               </div>
@@ -101,6 +91,7 @@
                   </button>
                   <%}%>
               </div>
+
             </div>
           </form>
         </div>

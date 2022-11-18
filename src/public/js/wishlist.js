@@ -9,7 +9,7 @@ function removeItemFromList(id) {
       }
     },
     error: function (error) {
-      console.log("could not clear wishlist: ", error);
+      console.error("could not clear wishlist: ", error);
     },
   });
 }
@@ -24,7 +24,7 @@ function addItemToCart(itemId) {
       }
     },
     error: function (error) {
-      console.log("could not clear wishlist: ", error);
+      console.error("could not clear wishlist: ", error);
     },
   });
 }

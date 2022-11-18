@@ -15,10 +15,8 @@ function loadProductsForCategory(category) {
     url: "/product/" + category,
     type: "GET",
     success: (data) => {
-      console.log("items array: ", data.items);
       const productContainer = $("#productContainer");
       productContainer.html("");
-      console.log("in load category success: ", data.items);
       if (data.items?.length) {
         for (let i = 0; i < data.items.length; i++) {
           productContainer.append(
@@ -113,13 +111,12 @@ function addItemToCart(itemId) {
       }
     },
     error: function (error) {
-      console.log("error add to wishlist: ", data);
+      console.error("error add to wishlist: ", data);
     },
   });
 }
 
 function addItemToWishlist(itemId) {
-  console.log("id to add: ", itemId);
   $.ajax({
     url: "/wishlist/add",
     type: "POST",
@@ -128,7 +125,7 @@ function addItemToWishlist(itemId) {
       console.log("added to wishlist: ", data);
     },
     error: function (error) {
-      console.log("error add to wishlist: ", error.responseJSON.message);
+      console.error("error add to wishlist: ", error.responseJSON.message);
     },
   });
 }
@@ -146,7 +143,6 @@ function removeProduct(productId) {
     url: "/product/remove/" + productId,
     type: "DELETE",
     success: (data) => {
-      console.log("200 from delete: ", data);
       loadProductsForCategory(data.item.category);
     },
   });

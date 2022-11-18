@@ -8,7 +8,6 @@ async function getWishlist(email) {
     .findOne({ user: email })
     .populate("itemIds.item");
 
-  console.log("wishlist", wishlist);
   if (wishlist) return wishlist.itemIds;
   else return [];
 }
@@ -28,7 +27,7 @@ async function addItemToList(email, itemId) {
       { upsert: true }
     );
   } catch (error) {
-    console.log("error in add to wishlist: ", error);
+    console.error("error in add to wishlist: ", error);
     return false;
   }
 }
@@ -44,7 +43,7 @@ async function removeItemFromList(email, itemId) {
     );
     return true;
   } catch (error) {
-    console.log("error in remove from wishlist: ", error);
+    console.error("error in remove from wishlist: ", error);
     return false;
   }
 }
