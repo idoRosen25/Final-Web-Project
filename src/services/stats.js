@@ -113,7 +113,7 @@ async function getOrdersByRange(range = "week") {
 
     return rangeOptions;
   } catch (err) {
-    console.log("error on range stats: ", err);
+    console.error("error on range stats: ", err);
   }
 }
 
@@ -144,7 +144,7 @@ async function getTopCategories() {
       title: { text: "Top Selling Categories" },
     };
   } catch (error) {
-    console.log("error on top cat stats: ", error);
+    console.error("error on top cat stats: ", error);
     return null;
   }
 }

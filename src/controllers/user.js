@@ -75,25 +75,26 @@ async function getUser(req, res) {
 
 async function updateUser(req, res) {
   const username = req.session.username;
-  const { password, firstName, lastName, gender, age } = req.body;
+  console.log("update user body: ", req.body);
+  const { firstName, lastName, age } = req.body;
   if (username) {
     const user = await userService.updateUser(
       username,
-      password,
       firstName,
       lastName,
-      gender,
       age
     );
+    console.log("user in control: ", user);
     if (user) {
-      res.json({ status: "success", code: 200, user });
+      res.status(200).json({ status: "success", user });
     }
+  } else {
+    res.json({
+      status: "error",
+      code: 400,
+      message: "Couldn't update user info",
+    });
   }
-  res.json({
-    status: "error",
-    code: 400,
-    message: "Couldn't update user info",
-  });
 }
 
 module.exports = {

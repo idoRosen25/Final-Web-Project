@@ -46,7 +46,7 @@ function loadTopCategories() {
       }
     },
     error: (error) => {
-      console.log("ajax error: ", error);
+      console.error("ajax error: ", error);
     },
   });
 }
@@ -69,7 +69,7 @@ function loadToUsers() {
       }
     },
     error: (error) => {
-      console.log("ajax error: ", error);
+      console.error("ajax error: ", error);
     },
   });
 }
@@ -102,7 +102,7 @@ $(() => {
         });
       },
       error: (error) => {
-        console.log("ajax error: ", error);
+        console.error("ajax error: ", error);
       },
     });
   };

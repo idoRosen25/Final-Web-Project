@@ -24,86 +24,74 @@
           </h2>
         </div>
         <div class="col-xl-4 col-lg-6 col-md-8 col-11 container-fluid">
-          <form id="addUser" action="/user/register" method="post">
-            <div class="p-3 card bg-dark text-dark flex-grow">
+          <form id="addUser" action="<%=user ? '/user':'/user/register' %>" method="<%=user ? 'put':'post' %>">
+            <div class="p-3 py-4 card bg-dark text-dark flex-grow rounded">
               <div class="col-10 container-fluid">
-                <div class="text-light mt-3">
-                  <h4>First Name</h4>
-                </div>
-                <div class="input-group">
+                <div class="form-floating mb-3 text-start">
                   <input name="firstName" type="text" class="form-control" placeholder="Enter name"
                     aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
                   user.firstName:null %>" />
+                  <label for="firstName">First Name</label>
                 </div>
-                <div class="text-light mt-3">
-                  <h4>Last Name</h4>
-                </div>
-                <div class="input-group">
+              </div>
+              <div class="col-10 container-fluid">
+                <div class="form-floating mb-3 text-start">
                   <input name="lastName" type="text" class="form-control" placeholder="Enter name"
                     aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
                   user.lastName:null %>" />
+                  <label for="lastName">Last Name</label>
                 </div>
-                <!-- Email -->
               </div>
-
-              <!-- password -->
               <% if(!user){%>
                 <div class="col-10 container-fluid">
-                  <div class="mb-3 mt-3">
-                    <label for="exampleFormControlInput1" class="form-label text-light">
-                      <h4>Email address</h4>
-                    </label>
+                  <div class="form-floating mb-3 text-start">
                     <input name="email" type="email" class="form-control" placeholder="name@example.com" required value="<%=user ?
                       user.email:null %>" />
+                    <label for="email">Email address</label>
                   </div>
                 </div>
                 <div class="col-10 container-fluid">
-                  <div class="text-light">
-                    <h4>Password</h4>
-                  </div>
-                  <div class="input">
+                  <div class="form-floating text-start">
                     <input name="password" type="password" class="form-control" placeholder="Enter Password"
                       aria-label="Recipient's username" aria-describedby="button-addon2" required />
+                    <label for="password">Password</label>
                     />
                   </div>
                 </div>
 
-                <!-- male/female/other -->
                 <div class="col-10 container-fluid">
-                  <div class="text-light">
-                    <h4>Choose Gender</h4>
-                  </div>
-                  <select name="gender" class="form-select" type="gender" aria-label="Default select example" required
-                    value="<%=user ?
+                  <div class="form-floating mb-3 text-start">
+                    <select name="gender" class="form-select" type="gender" aria-label="Default select example" required
+                      value="<%=user ?
                   user.gender:null %>">
-                    <option selected>Open this to select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
+                      <option value="male" selected>Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <label for="'gender">Gender</label>
+                  </div>
                 </div>
                 <%}%>
 
                   <div class="col-10 container-fluid">
-                    <div class="text-light mt-3">
-                      <h4>Age</h4>
-                    </div>
-                    <div class="input-group">
+                    <div class="form-floating mb-3 mt-0 text-start">
                       <input name="age" type="number" min="0" class="form-control" placeholder="Enter Age"
                         aria-label="Recipient's username" aria-describedby="button-addon2" required value="<%=user ?
                   user.age:null %>" />
+                      <label for="age">Age</label>
                     </div>
                   </div>
 
-                  <div id="adminCheckbox" class="col-4 container-fluid d-none">
-                    <div class="text-light mt-3">
-                      <h4>Admin</h4>
-                    </div>
-                    <div class="input-group">
-                      <input type="checkbox" class="m-auto" name="isAdmin">
+                  <div id="adminCheckbox" class="col-10 container-fluid d-none">
+                    <div class="col-4 mb-3 text-start text-light">
+                      <label for="isAdmin" class="fs-4 mr-4">Admin</label>
+                      <input id="isAdminInput" type="checkbox" class="m-auto" name="isAdmin">
                     </div>
                   </div>
 
+                  <div id="update-success" class="text-light fs-5 d-none">
+                    User Updated Successfully
+                  </div>
 
                   <div>
                     <button type="submit" class="btn btn-primary mt-3">
