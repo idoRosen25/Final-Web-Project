@@ -1,5 +1,15 @@
 # Final-Web-Project
 
+# Created By:
+
+# Ido Rosenblum - 204685283
+
+# Yossi Garby - 206337065
+
+# Yotam Hasin - 312148000
+
+# Amit Asman - 204703599
+
 Fresh Cart Shop - e-commerce for web development course.
 
 env file containing mongoDB username and password for connection (can be set to local db),
