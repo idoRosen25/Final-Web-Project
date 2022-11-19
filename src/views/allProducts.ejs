@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <%- include('./partials/head') %>
+</head>
+
+<body>
+    <div class="container-fluid overflow-hidden text-center bg-secondary">
+        <div class="row">
+            <div class="col-12">
+                <%- include('./partials/header'); %>
+            </div>
+        </div>
+        <div class="row mt-3 mb-5">
+            <!-- checkout -->
+            <div class="m-auto col-8 mt-3 mb-5">
+                <h1>Products</h1>
+            </div>
+            <div class="m-auto col-lg-10 col-md-11 col-12 ">
+
+                <div class="row mb-3">
+                    <div class="m-auto m-lg-0 col-10 col-md col-lg-3">
+                        <form id="nameSearchForm" class="form d-flex">
+                            <input name="startsWith" class="form-control mr-4" type="search" placeholder="Search"
+                                aria-label="Search" />
+                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="m-auto m-lg-0 col-10 col-md-6 col-lg-6 mt-3 mb-2">
+                        <div class="row">
+                            <div id="sortType" class="col-lg-9 m-auto">
+                                <form class="form d-flex justify-content-center m-auto">
+                                    <div class="form-check-inline col-4">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="nameRadio" checked>
+                                        <label class="form-check-label" for="nameRadio">
+                                            Name
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline col-4">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="priceRadio">
+                                        <label class="form-check-label" for="priceRadio">
+                                            Price
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-auto m-lg-0 col-10 col-md col-lg-3">
+                        <form class="form my-2 my-lg-0 d-flex">
+                            <input id="sortDirection" type="checkbox" />
+                            <label for="sortDirection" class="mx-3 fw-bold">Decsending Search</label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-auto col-lg-10 col-md-11 col-12 min-h-40">
+
+                <div class="p-3 bg-dark text-dark rounded">
+
+                    <div id="productContainer" class="row pt-2">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/footer'); %>
+    </div>
+    <script src="../public/js/sorting.js"></script>
+
+</body>
+
+</html>

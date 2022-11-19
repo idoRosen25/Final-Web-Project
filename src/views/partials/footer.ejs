@@ -134,7 +134,6 @@
 <script>
 
   function removeToast(e, toastId) {
-    console.log('toast removed: ', { e, toastId });
     e.remove()
   }
   $(() => {
@@ -146,7 +145,6 @@
 
     socket.on("new product", (product) => {
       const currentToasts = $('.toast');
-      console.log('current toasts: ', currentToasts, currentToasts.length)
       $("#toastAlert").append(
         `<div id='toast_${currentToasts.length + 1}' class="toast" role="alert" aria-live="assertive" aria-atomic="true"
         style="display:block;position:relative;">
@@ -185,7 +183,6 @@
             url: actionUrl,
             data: form.serialize(),
             success: (data) => {
-              console.log('data: ', data)
               if (data.code === 200) {
                 socket.emit('new product', data.item);
                 $("#overlayText").text("");

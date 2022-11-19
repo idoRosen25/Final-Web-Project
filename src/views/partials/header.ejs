@@ -9,17 +9,20 @@
         aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle navigation" style="max-width: 75px">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="headerNavbar">
-        <ul class="navbar-nav">
+      <div class="collapse navbar-collapse text-start" id="headerNavbar">
+        <ul class="navbar-nav col-8 col-xl-7 col-xxl-6">
           <li class="nav-item">
             <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/product/shop">Shop</a>
+            <a class="nav-link" href="/product/shop">Shop By Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/product/all">All Products</a>
           </li>
         </ul>
 
-        <ul class="navbar-nav col-9 justify-content-end gap-md-4">
+        <ul class="navbar-nav col-4 col-xl-6 justify-content-end gap-md-4">
           <% if(username){%>
             <!-- Add shopping cart and whishlish icon-->
             <li class="nav-item">

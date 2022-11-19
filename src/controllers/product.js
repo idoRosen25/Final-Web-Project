@@ -1,7 +1,7 @@
 const productService = require("../services/product");
 const categoryService = require("../services/category");
 
-async function allProductsPage(req, res) {
+async function shopByCategory(req, res) {
   const categories = await categoryService.getCategories();
 
   if (categories) {
@@ -137,11 +137,47 @@ async function removeProduct(req, res) {
   }
 }
 
+async function allProductsShop(req, res) {
+  try {
+    const products = await productService.getAllProducts();
+
+    if (products.length) {
+      res.render("allProducts", {
+        products,
+        loggedIn: !!req.session.username,
+        isAdmin: !!req.session.isAdmin,
+      });
+    } else {
+      throw { code: 400, message: "No products found" };
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
+async function sortedProducts(req, res) {
+  try {
+    const sortedItems = await productService.getSortedProducts(req.query);
+
+    if (sortedItems) {
+      res.status(200).json({
+        status: "success",
+        items: sortedItems,
+        isAdmin: !!req.session.isAdmin,
+        isLoggedIn: !!req.session.username,
+      });
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 module.exports = {
   getProductsByCategory,
   addProduct,
   getProductById,
   updateProduct,
   removeProduct,
-  allProductsPage,
+  shopByCategory,
+  allProductsShop,
+  sortedProducts,
 };

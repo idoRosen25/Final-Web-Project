@@ -75,7 +75,6 @@ async function getUser(req, res) {
 
 async function updateUser(req, res) {
   const username = req.session.username;
-  console.log("update user body: ", req.body);
   const { firstName, lastName, age } = req.body;
   if (username) {
     const user = await userService.updateUser(
@@ -84,7 +83,6 @@ async function updateUser(req, res) {
       lastName,
       age
     );
-    console.log("user in control: ", user);
     if (user) {
       res.status(200).json({ status: "success", user });
     }

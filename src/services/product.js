@@ -74,10 +74,33 @@ async function removeProduct(productId) {
   }
 }
 
+async function getAllProducts() {
+  return await productModel.find();
+}
+
+async function getSortedProducts({ startsWith, isDecsending, sortType }) {
+  try {
+    const sort = isDecsending === "false" ? 1 : -1;
+    const query = !!startsWith.charAt(0).match("[a-zA-Z]")
+      ? { title: new RegExp(`^${startsWith}`, "i") }
+      : {};
+
+    const sortField = sortType === "price" ? "price" : "title";
+
+    const sorted = await productModel.find(query).sort({ [sortField]: sort });
+
+    return sorted;
+  } catch (error) {
+    throw new Error({ code: 400, message: "Error sorting products" });
+  }
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
   getProductById,
   updateProduct,
   removeProduct,
+  getAllProducts,
+  getSortedProducts,
 };
