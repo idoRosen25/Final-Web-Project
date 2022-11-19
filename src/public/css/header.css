@@ -41,3 +41,8 @@
   background-color: gray;
   cursor: pointer;
 }
+
+.topRightBadge {
+  position: absolute;
+  margin-left: -40%;
+}

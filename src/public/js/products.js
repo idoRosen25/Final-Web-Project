@@ -2,12 +2,12 @@ $(() => {
   $("#overlay-dismiss-btn").click(() => {
     $("#overlay").toggleClass("d-none");
   });
-
-  if (window.location.href.includes("/shop") && $(`.general`)) {
-    $(`.general`)[0].className += " active";
+  if (window.location.href.includes("shop")) {
+    if ($(`.general`)) {
+      $(`.general`)[0].className += " active";
+    }
+    loadProductsForCategory("general");
   }
-
-  loadProductsForCategory("general");
 });
 
 function loadProductsForCategory(category) {
@@ -117,7 +117,7 @@ function addItemToWishlist(itemId) {
     type: "POST",
     data: { itemId },
     success: function (data) {
-      console.log("added to wishlist: ", data);
+      alert("Item added to wishlist: ", data.item.title);
     },
     error: function (error) {
       console.error("error add to wishlist: ", error.responseJSON.message);

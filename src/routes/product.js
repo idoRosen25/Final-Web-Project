@@ -3,7 +3,11 @@ const router = express.Router();
 const { isAdmin } = require("../controllers/user");
 const productController = require("../controllers/product");
 
-router.get("/shop", productController.allProductsPage);
+router.get("/shop", productController.shopByCategory);
+
+router.get("/all", productController.allProductsShop);
+
+router.get("/sort", productController.sortedProducts);
 
 router.get("/add/:id", isAdmin, productController.getProductById);
 

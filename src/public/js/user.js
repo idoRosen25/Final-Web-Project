@@ -66,7 +66,6 @@ $("#addUser").submit(function (e) {
     url: actionUrl,
     data: form.serialize(),
     success: (data) => {
-      console.log("data: ", data);
       if (method.toLowerCase() == "put") {
         $("#update-success").toggleClass("d-none");
 
@@ -79,7 +78,7 @@ $("#addUser").submit(function (e) {
       $('button[type="submit"]').prop("disabled", false);
     },
     error: (error) => {
-      console.log("couldnt send /user req type: " + method);
+      console.error("couldnt send /user req type: " + method);
       $('button[type="submit"]').prop("disabled", false);
     },
   });
