@@ -10,9 +10,11 @@ $(() => {
     }
   } catch (error) {}
 
-  $("#isAdminInput")[0].checked =
-    JSON.parse(localStorage.getItem("user"))?.isAdmin &&
-    !window.location.href.includes("add-user");
+  if ($("#isAdminInput")[0]) {
+    $("#isAdminInput")[0].checked =
+      JSON.parse(localStorage.getItem("user"))?.isAdmin &&
+      !window.location.href.includes("add-user");
+  }
 });
 
 $("#loginForm").submit(function (e) {
@@ -33,7 +35,11 @@ $("#loginForm").submit(function (e) {
     success: ({ status, user }) => {
       if (status == "success") {
         localStorage.setItem("user", JSON.stringify(user));
-        location.reload();
+        if (window.location.href.includes("error")) {
+          window.location.href = "/";
+        } else {
+          location.reload();
+        }
       } else {
         $("#loginError").show();
         signinBtn.value = "Sign In";

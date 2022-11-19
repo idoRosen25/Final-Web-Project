@@ -104,11 +104,7 @@ function addItemToCart(itemId) {
     url: "/cart/add",
     type: "POST",
     data: { productId: itemId },
-    success: function (data) {
-      if (typeof data == "string") {
-        window.location.href = "/";
-      }
-    },
+    success: function (data) {},
     error: function (error) {
       console.error("error add to wishlist: ", data);
     },

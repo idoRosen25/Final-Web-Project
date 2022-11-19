@@ -8,7 +8,7 @@ async function getWishlist(email) {
     .findOne({ user: email })
     .populate("itemIds.item");
 
-  if (wishlist) return wishlist.itemIds;
+  if (wishlist) return wishlist?.itemIds?.filter((item) => !!item.item);
   else return [];
 }
 
@@ -19,16 +19,15 @@ async function addItemToList(email, itemId) {
     }
     const wishlist = await wishlistModel.findOne({ user: email });
     if (wishlist.itemIds.find((item) => item.item.toString() == itemId))
-      return false;
-
-    await wishlistModel.updateOne(
+      return { codE: 400, message: "product already in wishlist" };
+    return await wishlistModel.updateOne(
       { user: email },
       { $push: { itemIds: { item: itemId } } },
       { upsert: true }
     );
   } catch (error) {
     console.error("error in add to wishlist: ", error);
-    return false;
+    return { codE: 400, message: "couldnt add item to wishlist" };
   }
 }
 

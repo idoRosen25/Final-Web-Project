@@ -13,6 +13,7 @@ function removeItemFromList(id) {
     },
   });
 }
+
 function addItemToCart(itemId) {
   $.ajax({
     url: "/cart/add",
