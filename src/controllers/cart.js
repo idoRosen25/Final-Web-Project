@@ -2,6 +2,7 @@ const cartService = require("../services/cart");
 
 async function getCart(req, res) {
   const items = await cartService.getCart(req.session.username);
+
   res.render("cart", {
     items,
   });

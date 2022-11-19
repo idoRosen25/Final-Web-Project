@@ -27,14 +27,7 @@ app.use(sessionMiddleware);
 app.use(function (req, res, next) {
   // res.locals.username = req.session?.username ? req.session?.username : null;
   res.locals.username = req.session.username ? req.session.username : null;
-
   next();
-});
-
-app.get("/about", (req, res) => {
-  res.render("about", {
-    googleKey: GOOGLE_KEY,
-  });
 });
 
 app.use("/user", require("./routes/user"));
@@ -45,6 +38,13 @@ app.use("/category", require("./routes/category"));
 app.use("/orders", require("./routes/order"));
 app.use("/checkout", require("./routes/checkout"));
 app.use("/stats", require("./routes/stats"));
+
+app.get("/about", (req, res) => {
+  res.render("about", {
+    googleKey: GOOGLE_KEY,
+  });
+});
+
 app.get("/error", (req, res) => {
   res.render("errorPage");
 });
@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new product", (product) => {
-    socket.emit("new product", product);
+    socket.broadcast("new product", product);
   });
 });
 

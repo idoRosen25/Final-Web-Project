@@ -3,13 +3,17 @@ const router = express.Router();
 const { isLoggedIn } = require("../controllers/user");
 const cartController = require("../controllers/cart");
 
-router.get("/", cartController.getCart);
+router.get("/", isLoggedIn, cartController.getCart);
 
 router.delete("/", isLoggedIn, cartController.clearCart);
 
 router.post("/add", isLoggedIn, cartController.addProductToCart);
 
-router.put("/update-quantity", cartController.updateProductQuantity);
+router.put(
+  "/update-quantity",
+  isLoggedIn,
+  cartController.updateProductQuantity
+);
 
 router.delete("/remove", isLoggedIn, cartController.removeProductFromCart);
 

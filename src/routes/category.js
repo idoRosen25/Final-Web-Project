@@ -6,16 +6,16 @@ const { getCategories } = require("../services/category");
 
 router.get("/", categoryController.getCategories);
 
-router.post("/add", categoryController.addCategory);
+router.post("/add", isAdmin, categoryController.addCategory);
 
-router.get("/add/:title", categoryController.addCategoryPage);
+router.get("/add/:title", isAdmin, categoryController.addCategoryPage);
 
-router.get("/remove", async (req, res) => {
+router.get("/remove", isAdmin, async (req, res) => {
   res.render("removeCategory", { categories: await getCategories() });
 });
 
-router.put("/update/:id", categoryController.updateCategory);
+router.put("/update/:id", isAdmin, categoryController.updateCategory);
 
-router.post("/remove", categoryController.removeCategory);
+router.post("/remove", isAdmin, categoryController.removeCategory);
 
 module.exports = router;
