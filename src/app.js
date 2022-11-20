@@ -50,7 +50,7 @@ app.get("/error", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.redirect("index");
+  res.render("index");
 });
 app.use("*", (req, res) => {
   res.redirect("/error?code=404");
