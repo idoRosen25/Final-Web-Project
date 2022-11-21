@@ -2,13 +2,13 @@
 
 # Created By:
 
-# Ido Rosenblum - 204685283
+# Ido Rosenblum
 
-# Yossi Garby - 206337065
+# Yossi Garby
 
-# Yotam Hasin - 312148000
+# Yotam Hasin
 
-# Amit Asman - 204703599
+# Amit Asman
 
 Fresh Cart Shop - e-commerce for web development course.
 
